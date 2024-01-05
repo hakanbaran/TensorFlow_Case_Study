@@ -7,15 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AFDC13B9CF597F085C5DF6F1 /* Pods_TensorFlow_Case_Study.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 924BF12F516C3E53706D5AEA /* Pods_TensorFlow_Case_Study.framework */; };
 		D46B88572B4817FC003DE906 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B88562B4817FC003DE906 /* AppDelegate.swift */; };
 		D46B88592B4817FC003DE906 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B88582B4817FC003DE906 /* SceneDelegate.swift */; };
 		D46B885B2B4817FC003DE906 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B885A2B4817FC003DE906 /* ViewController.swift */; };
 		D46B885E2B4817FC003DE906 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D46B885C2B4817FC003DE906 /* Main.storyboard */; };
 		D46B88602B4817FD003DE906 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D46B885F2B4817FD003DE906 /* Assets.xcassets */; };
 		D46B88632B4817FD003DE906 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D46B88612B4817FD003DE906 /* LaunchScreen.storyboard */; };
+		D46B886C2B481DC2003DE906 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = D46B886B2B481DC2003DE906 /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		924BF12F516C3E53706D5AEA /* Pods_TensorFlow_Case_Study.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TensorFlow_Case_Study.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2103E42E5EE4743496C3DB7 /* Pods-TensorFlow_Case_Study.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TensorFlow_Case_Study.debug.xcconfig"; path = "Target Support Files/Pods-TensorFlow_Case_Study/Pods-TensorFlow_Case_Study.debug.xcconfig"; sourceTree = "<group>"; };
+		CFEA3B8CD608A92FDF0C076A /* Pods-TensorFlow_Case_Study.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TensorFlow_Case_Study.release.xcconfig"; path = "Target Support Files/Pods-TensorFlow_Case_Study/Pods-TensorFlow_Case_Study.release.xcconfig"; sourceTree = "<group>"; };
 		D46B88532B4817FC003DE906 /* TensorFlow_Case_Study.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TensorFlow_Case_Study.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46B88562B4817FC003DE906 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D46B88582B4817FC003DE906 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -31,17 +36,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFDC13B9CF597F085C5DF6F1 /* Pods_TensorFlow_Case_Study.framework in Frameworks */,
+				D46B886C2B481DC2003DE906 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		401EA4727F31936C9352424B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				924BF12F516C3E53706D5AEA /* Pods_TensorFlow_Case_Study.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A1CC76120410BC3E91545D0D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C2103E42E5EE4743496C3DB7 /* Pods-TensorFlow_Case_Study.debug.xcconfig */,
+				CFEA3B8CD608A92FDF0C076A /* Pods-TensorFlow_Case_Study.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		D46B884A2B4817FC003DE906 = {
 			isa = PBXGroup;
 			children = (
 				D46B88552B4817FC003DE906 /* TensorFlow_Case_Study */,
 				D46B88542B4817FC003DE906 /* Products */,
+				A1CC76120410BC3E91545D0D /* Pods */,
+				401EA4727F31936C9352424B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,8 +82,8 @@
 		D46B88552B4817FC003DE906 /* TensorFlow_Case_Study */ = {
 			isa = PBXGroup;
 			children = (
-				D46B88562B4817FC003DE906 /* AppDelegate.swift */,
-				D46B88582B4817FC003DE906 /* SceneDelegate.swift */,
+				D46B886E2B481E39003DE906 /* Views */,
+				D46B886D2B481E32003DE906 /* Resource */,
 				D46B885A2B4817FC003DE906 /* ViewController.swift */,
 				D46B885C2B4817FC003DE906 /* Main.storyboard */,
 				D46B885F2B4817FD003DE906 /* Assets.xcassets */,
@@ -67,6 +93,22 @@
 			path = TensorFlow_Case_Study;
 			sourceTree = "<group>";
 		};
+		D46B886D2B481E32003DE906 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				D46B88562B4817FC003DE906 /* AppDelegate.swift */,
+				D46B88582B4817FC003DE906 /* SceneDelegate.swift */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		D46B886E2B481E39003DE906 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,6 +116,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D46B88672B4817FD003DE906 /* Build configuration list for PBXNativeTarget "TensorFlow_Case_Study" */;
 			buildPhases = (
+				D995C2BC24ACFE1FECA0EC97 /* [CP] Check Pods Manifest.lock */,
 				D46B884F2B4817FC003DE906 /* Sources */,
 				D46B88502B4817FC003DE906 /* Frameworks */,
 				D46B88512B4817FC003DE906 /* Resources */,
@@ -83,6 +126,9 @@
 			dependencies = (
 			);
 			name = TensorFlow_Case_Study;
+			packageProductDependencies = (
+				D46B886B2B481DC2003DE906 /* Alamofire */,
+			);
 			productName = TensorFlow_Case_Study;
 			productReference = D46B88532B4817FC003DE906 /* TensorFlow_Case_Study.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +157,9 @@
 				Base,
 			);
 			mainGroup = D46B884A2B4817FC003DE906;
+			packageReferences = (
+				D46B886A2B481DC2003DE906 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = D46B88542B4817FC003DE906 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -132,6 +181,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D995C2BC24ACFE1FECA0EC97 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TensorFlow_Case_Study-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D46B884F2B4817FC003DE906 /* Sources */ = {
@@ -287,6 +361,7 @@
 		};
 		D46B88682B4817FD003DE906 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C2103E42E5EE4743496C3DB7 /* Pods-TensorFlow_Case_Study.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -300,6 +375,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -307,14 +383,18 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.hakanbaran.TensorFlow-Case-Study";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		D46B88692B4817FD003DE906 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CFEA3B8CD608A92FDF0C076A /* Pods-TensorFlow_Case_Study.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -328,6 +408,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -335,9 +416,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.hakanbaran.TensorFlow-Case-Study";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -363,6 +447,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D46B886A2B481DC2003DE906 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.8.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D46B886B2B481DC2003DE906 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D46B886A2B481DC2003DE906 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D46B884B2B4817FC003DE906 /* Project object */;
 }
