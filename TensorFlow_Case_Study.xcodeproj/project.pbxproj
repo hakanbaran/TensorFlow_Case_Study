@@ -11,7 +11,6 @@
 		D46B88572B4817FC003DE906 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B88562B4817FC003DE906 /* AppDelegate.swift */; };
 		D46B88592B4817FC003DE906 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B88582B4817FC003DE906 /* SceneDelegate.swift */; };
 		D46B885B2B4817FC003DE906 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B885A2B4817FC003DE906 /* ViewController.swift */; };
-		D46B885E2B4817FC003DE906 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D46B885C2B4817FC003DE906 /* Main.storyboard */; };
 		D46B88602B4817FD003DE906 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D46B885F2B4817FD003DE906 /* Assets.xcassets */; };
 		D46B88632B4817FD003DE906 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D46B88612B4817FD003DE906 /* LaunchScreen.storyboard */; };
 		D46B886C2B481DC2003DE906 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = D46B886B2B481DC2003DE906 /* Alamofire */; };
@@ -25,7 +24,6 @@
 		D46B88562B4817FC003DE906 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D46B88582B4817FC003DE906 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D46B885A2B4817FC003DE906 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		D46B885D2B4817FC003DE906 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D46B885F2B4817FD003DE906 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D46B88622B4817FD003DE906 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D46B88642B4817FD003DE906 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -85,7 +83,6 @@
 				D46B886E2B481E39003DE906 /* Views */,
 				D46B886D2B481E32003DE906 /* Resource */,
 				D46B885A2B4817FC003DE906 /* ViewController.swift */,
-				D46B885C2B4817FC003DE906 /* Main.storyboard */,
 				D46B885F2B4817FD003DE906 /* Assets.xcassets */,
 				D46B88612B4817FD003DE906 /* LaunchScreen.storyboard */,
 				D46B88642B4817FD003DE906 /* Info.plist */,
@@ -176,7 +173,6 @@
 			files = (
 				D46B88632B4817FD003DE906 /* LaunchScreen.storyboard in Resources */,
 				D46B88602B4817FD003DE906 /* Assets.xcassets in Resources */,
-				D46B885E2B4817FC003DE906 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,14 +217,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		D46B885C2B4817FC003DE906 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D46B885D2B4817FC003DE906 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		D46B88612B4817FD003DE906 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -372,7 +360,7 @@
 				INFOPLIST_FILE = TensorFlow_Case_Study/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -405,7 +393,7 @@
 				INFOPLIST_FILE = TensorFlow_Case_Study/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
