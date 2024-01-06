@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		AFDC13B9CF597F085C5DF6F1 /* Pods_TensorFlow_Case_Study.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 924BF12F516C3E53706D5AEA /* Pods_TensorFlow_Case_Study.framework */; };
+		D407D38A2B49E83F006DC778 /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407D3892B49E83F006DC778 /* TabBarVC.swift */; };
+		D407D38C2B49EA98006DC778 /* CameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407D38B2B49EA98006DC778 /* CameraVC.swift */; };
 		D46B88572B4817FC003DE906 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B88562B4817FC003DE906 /* AppDelegate.swift */; };
 		D46B88592B4817FC003DE906 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B88582B4817FC003DE906 /* SceneDelegate.swift */; };
 		D46B88602B4817FD003DE906 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D46B885F2B4817FD003DE906 /* Assets.xcassets */; };
@@ -20,6 +22,8 @@
 		924BF12F516C3E53706D5AEA /* Pods_TensorFlow_Case_Study.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TensorFlow_Case_Study.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2103E42E5EE4743496C3DB7 /* Pods-TensorFlow_Case_Study.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TensorFlow_Case_Study.debug.xcconfig"; path = "Target Support Files/Pods-TensorFlow_Case_Study/Pods-TensorFlow_Case_Study.debug.xcconfig"; sourceTree = "<group>"; };
 		CFEA3B8CD608A92FDF0C076A /* Pods-TensorFlow_Case_Study.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TensorFlow_Case_Study.release.xcconfig"; path = "Target Support Files/Pods-TensorFlow_Case_Study/Pods-TensorFlow_Case_Study.release.xcconfig"; sourceTree = "<group>"; };
+		D407D3892B49E83F006DC778 /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
+		D407D38B2B49EA98006DC778 /* CameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
 		D46B88532B4817FC003DE906 /* TensorFlow_Case_Study.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TensorFlow_Case_Study.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46B88562B4817FC003DE906 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D46B88582B4817FC003DE906 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -110,6 +114,8 @@
 			isa = PBXGroup;
 			children = (
 				D46B88702B481F66003DE906 /* HomeVC.swift */,
+				D407D38B2B49EA98006DC778 /* CameraVC.swift */,
+				D407D3892B49E83F006DC778 /* TabBarVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -218,6 +224,8 @@
 			files = (
 				D46B88712B481F66003DE906 /* HomeVC.swift in Sources */,
 				D46B88572B4817FC003DE906 /* AppDelegate.swift in Sources */,
+				D407D38C2B49EA98006DC778 /* CameraVC.swift in Sources */,
+				D407D38A2B49E83F006DC778 /* TabBarVC.swift in Sources */,
 				D46B88592B4817FC003DE906 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
