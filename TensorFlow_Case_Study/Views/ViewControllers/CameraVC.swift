@@ -7,6 +7,7 @@
 
 import UIKit
 import AVFoundation
+import TensorFlowLiteTaskVision
 
 class CameraVC: UIViewController {
     
@@ -70,6 +71,12 @@ class CameraVC: UIViewController {
     }
     
     func setUpCamera() {
+        
+//        guard let modelPath = Bundle.main.path(forResource: "ssd_mobilenet_v1 1", ofType: "tflite") else {
+//            return
+//        }
+        
+        
         
         let session = AVCaptureSession()
         

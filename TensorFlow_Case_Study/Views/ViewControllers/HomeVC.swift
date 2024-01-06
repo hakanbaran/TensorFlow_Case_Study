@@ -8,7 +8,10 @@
 import UIKit
 import AVFoundation
 
+
 class HomeVC: UIViewController {
+    
+    
     
     var session: AVCaptureSession?
     var output = AVCapturePhotoOutput()
