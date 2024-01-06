@@ -14,7 +14,6 @@
 		D46B88592B4817FC003DE906 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B88582B4817FC003DE906 /* SceneDelegate.swift */; };
 		D46B88602B4817FD003DE906 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D46B885F2B4817FD003DE906 /* Assets.xcassets */; };
 		D46B88632B4817FD003DE906 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D46B88612B4817FD003DE906 /* LaunchScreen.storyboard */; };
-		D46B886C2B481DC2003DE906 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = D46B886B2B481DC2003DE906 /* Alamofire */; };
 		D46B88712B481F66003DE906 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B88702B481F66003DE906 /* HomeVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,7 +38,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AFDC13B9CF597F085C5DF6F1 /* Pods_TensorFlow_Case_Study.framework in Frameworks */,
-				D46B886C2B481DC2003DE906 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,15 +129,13 @@
 				D46B884F2B4817FC003DE906 /* Sources */,
 				D46B88502B4817FC003DE906 /* Frameworks */,
 				D46B88512B4817FC003DE906 /* Resources */,
+				BC07B7A5A90E07CDBCD1E874 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = TensorFlow_Case_Study;
-			packageProductDependencies = (
-				D46B886B2B481DC2003DE906 /* Alamofire */,
-			);
 			productName = TensorFlow_Case_Study;
 			productReference = D46B88532B4817FC003DE906 /* TensorFlow_Case_Study.app */;
 			productType = "com.apple.product-type.application";
@@ -168,9 +164,6 @@
 				Base,
 			);
 			mainGroup = D46B884A2B4817FC003DE906;
-			packageReferences = (
-				D46B886A2B481DC2003DE906 /* XCRemoteSwiftPackageReference "Alamofire" */,
-			);
 			productRefGroup = D46B88542B4817FC003DE906 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -193,6 +186,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		BC07B7A5A90E07CDBCD1E874 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TensorFlow_Case_Study/Pods-TensorFlow_Case_Study-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TensorFlow_Case_Study/Pods-TensorFlow_Case_Study-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TensorFlow_Case_Study/Pods-TensorFlow_Case_Study-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D995C2BC24ACFE1FECA0EC97 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -451,25 +461,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		D46B886A2B481DC2003DE906 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/Alamofire";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.8.1;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		D46B886B2B481DC2003DE906 /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D46B886A2B481DC2003DE906 /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D46B884B2B4817FC003DE906 /* Project object */;
 }
