@@ -7,25 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		885ECAE651D37B655E1D7FFA /* Pods_TensorFlow_Case_Study.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 631A8352D958CDE433E0EFF0 /* Pods_TensorFlow_Case_Study.framework */; };
 		D407D38A2B49E83F006DC778 /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407D3892B49E83F006DC778 /* TabBarVC.swift */; };
 		D407D38C2B49EA98006DC778 /* CameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407D38B2B49EA98006DC778 /* CameraVC.swift */; };
 		D4171BDA2B4B47A6005280C5 /* PopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4171BD92B4B47A6005280C5 /* PopUpVC.swift */; };
 		D4171BDD2B4B4A2A005280C5 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4171BDC2B4B4A2A005280C5 /* UIColorExtension.swift */; };
+		D469C9BE2B4C28BC005216DF /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D469C9BD2B4C28BC005216DF /* APICaller.swift */; };
 		D46B88572B4817FC003DE906 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B88562B4817FC003DE906 /* AppDelegate.swift */; };
 		D46B88592B4817FC003DE906 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B88582B4817FC003DE906 /* SceneDelegate.swift */; };
 		D46B88602B4817FD003DE906 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D46B885F2B4817FD003DE906 /* Assets.xcassets */; };
 		D46B88632B4817FD003DE906 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D46B88612B4817FD003DE906 /* LaunchScreen.storyboard */; };
 		D46B88712B481F66003DE906 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B88702B481F66003DE906 /* HomeVC.swift */; };
 		D4D9839D2B4A1C6B00407BEB /* ssd_mobilenet_v1_1.tflite in Resources */ = {isa = PBXBuildFile; fileRef = D4D9839C2B4A1C6B00407BEB /* ssd_mobilenet_v1_1.tflite */; };
+		D4F04C752B4C2C98000E76B0 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = D4F04C742B4C2C98000E76B0 /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		631A8352D958CDE433E0EFF0 /* Pods_TensorFlow_Case_Study.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TensorFlow_Case_Study.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2103E42E5EE4743496C3DB7 /* Pods-TensorFlow_Case_Study.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TensorFlow_Case_Study.debug.xcconfig"; path = "Target Support Files/Pods-TensorFlow_Case_Study/Pods-TensorFlow_Case_Study.debug.xcconfig"; sourceTree = "<group>"; };
 		CFEA3B8CD608A92FDF0C076A /* Pods-TensorFlow_Case_Study.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TensorFlow_Case_Study.release.xcconfig"; path = "Target Support Files/Pods-TensorFlow_Case_Study/Pods-TensorFlow_Case_Study.release.xcconfig"; sourceTree = "<group>"; };
 		D407D3892B49E83F006DC778 /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 		D407D38B2B49EA98006DC778 /* CameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
 		D4171BD92B4B47A6005280C5 /* PopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpVC.swift; sourceTree = "<group>"; };
 		D4171BDC2B4B4A2A005280C5 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		D469C9BD2B4C28BC005216DF /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		D46B88532B4817FC003DE906 /* TensorFlow_Case_Study.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TensorFlow_Case_Study.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46B88562B4817FC003DE906 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D46B88582B4817FC003DE906 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -41,6 +46,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				885ECAE651D37B655E1D7FFA /* Pods_TensorFlow_Case_Study.framework in Frameworks */,
+				D4F04C752B4C2C98000E76B0 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,6 +57,7 @@
 		401EA4727F31936C9352424B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				631A8352D958CDE433E0EFF0 /* Pods_TensorFlow_Case_Study.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -69,6 +77,14 @@
 				D4171BDC2B4B4A2A005280C5 /* UIColorExtension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		D469C9BC2B4C2897005216DF /* WebServices */ = {
+			isa = PBXGroup;
+			children = (
+				D469C9BD2B4C28BC005216DF /* APICaller.swift */,
+			);
+			path = WebServices;
 			sourceTree = "<group>";
 		};
 		D46B884A2B4817FC003DE906 = {
@@ -93,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				D4171BDB2B4B4A0E005280C5 /* Extensions */,
+				D469C9BC2B4C2897005216DF /* WebServices */,
 				D46B886D2B481E32003DE906 /* Resource */,
 				D46B886E2B481E39003DE906 /* Views */,
 				D46B88642B4817FD003DE906 /* Info.plist */,
@@ -148,6 +165,9 @@
 			dependencies = (
 			);
 			name = TensorFlow_Case_Study;
+			packageProductDependencies = (
+				D4F04C742B4C2C98000E76B0 /* Alamofire */,
+			);
 			productName = TensorFlow_Case_Study;
 			productReference = D46B88532B4817FC003DE906 /* TensorFlow_Case_Study.app */;
 			productType = "com.apple.product-type.application";
@@ -176,6 +196,9 @@
 				Base,
 			);
 			mainGroup = D46B884A2B4817FC003DE906;
+			packageReferences = (
+				D4F04C732B4C2C98000E76B0 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = D46B88542B4817FC003DE906 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -235,6 +258,7 @@
 				D4171BDA2B4B47A6005280C5 /* PopUpVC.swift in Sources */,
 				D407D38A2B49E83F006DC778 /* TabBarVC.swift in Sources */,
 				D46B88592B4817FC003DE906 /* SceneDelegate.swift in Sources */,
+				D469C9BE2B4C28BC005216DF /* APICaller.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +484,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D4F04C732B4C2C98000E76B0 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.8.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D4F04C742B4C2C98000E76B0 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D4F04C732B4C2C98000E76B0 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D46B884B2B4817FC003DE906 /* Project object */;
 }

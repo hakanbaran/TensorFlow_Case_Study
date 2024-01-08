@@ -54,6 +54,8 @@ class TabBarVC: UITabBarController {
         shape.borderWidth = 0.2
         shape.borderColor = UIColor.darkGray.cgColor
         
+        
+        
         self.tabBar.layer.insertSublayer(shape, at: 0)
         self.tabBar.itemWidth = 40
         self.tabBar.itemPositioning = .centered
@@ -63,29 +65,29 @@ class TabBarVC: UITabBarController {
     
     func getPathForTabBar() -> UIBezierPath {
         
-            let frameWidth = self.tabBar.bounds.width
-        let frameHeight = self.tabBar.bounds.height + 150
-        
+        let frameWidth = self.tabBar.bounds.width
+        let frameHeight = self.tabBar.bounds.height + frameWidth/2.76
+        let width = view.frame.width
         print(frameWidth)
-        let holeWidth = 200
-        let holeHeight = 75
-            let leftXUntilHole = Int(frameWidth)-230
-            
-            let path : UIBezierPath = UIBezierPath()
+        let holeWidth = Int(width/2.07)
+        let holeHeight = Int(width/5.52)
+        let leftXUntilHole = Int(frameWidth)-Int(frameWidth/1.8)
         
-            path.move(to: CGPoint(x: 0, y: 0))
-            path.addLine(to: CGPoint(x: leftXUntilHole , y: 0)) // 1.Line
-            path.addCurve(to: CGPoint(x: leftXUntilHole + (holeWidth/3), y: holeHeight/2), controlPoint1: CGPoint(x: leftXUntilHole + ((holeWidth/3)/8)*6,y: 0), controlPoint2: CGPoint(x: leftXUntilHole + ((holeWidth/3)/8)*8, y: holeHeight/2)) // part I
-            
-            path.addCurve(to: CGPoint(x: leftXUntilHole + (2*holeWidth)/3, y: holeHeight/2), controlPoint1: CGPoint(x: leftXUntilHole + (holeWidth/3) + (holeWidth/3)/3*2/5, y: (holeHeight/2)*6/4), controlPoint2: CGPoint(x: leftXUntilHole + (holeWidth/3) + (holeWidth/3)/3*2 + (holeWidth/3)/3*3/5, y: (holeHeight/2)*6/4)) // part II
-            
-            path.addCurve(to: CGPoint(x: leftXUntilHole + holeWidth, y: 0), controlPoint1: CGPoint(x: leftXUntilHole + (2*holeWidth)/3,y: holeHeight/2), controlPoint2: CGPoint(x: leftXUntilHole + (2*holeWidth)/3 + (holeWidth/3)*2/8, y: 0))
-            path.addLine(to: CGPoint(x: frameWidth, y: 0))
-            path.addLine(to: CGPoint(x: frameWidth, y: frameHeight))
-            path.addLine(to: CGPoint(x: 0, y: frameHeight))
-            path.addLine(to: CGPoint(x: 0, y: 0))
-            path.close()
-            return path
-        }
+        let path : UIBezierPath = UIBezierPath()
+        
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: leftXUntilHole , y: 0)) // 1.Line
+        path.addCurve(to: CGPoint(x: leftXUntilHole + (holeWidth/3), y: holeHeight/2), controlPoint1: CGPoint(x: leftXUntilHole + ((holeWidth/3)/8)*6,y: 0), controlPoint2: CGPoint(x: leftXUntilHole + ((holeWidth/3)/8)*8, y: holeHeight/2)) // part I
+        
+        path.addCurve(to: CGPoint(x: leftXUntilHole + (2*holeWidth)/3, y: holeHeight/2), controlPoint1: CGPoint(x: leftXUntilHole + (holeWidth/3) + (holeWidth/3)/3*2/5, y: (holeHeight/2)*6/4), controlPoint2: CGPoint(x: leftXUntilHole + (holeWidth/3) + (holeWidth/3)/3*2 + (holeWidth/3)/3*3/5, y: (holeHeight/2)*6/4)) // part II
+        
+        path.addCurve(to: CGPoint(x: leftXUntilHole + holeWidth, y: 0), controlPoint1: CGPoint(x: leftXUntilHole + (2*holeWidth)/3,y: holeHeight/2), controlPoint2: CGPoint(x: leftXUntilHole + (2*holeWidth)/3 + (holeWidth/3)*2/8, y: 0))
+        path.addLine(to: CGPoint(x: frameWidth, y: 0))
+        path.addLine(to: CGPoint(x: frameWidth, y: frameHeight))
+        path.addLine(to: CGPoint(x: 0, y: frameHeight))
+        path.addLine(to: CGPoint(x: 0, y: 0))
+        path.close()
+        return path
+    }
     
 }
