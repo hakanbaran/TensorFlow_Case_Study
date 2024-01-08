@@ -16,14 +16,9 @@ class HomeVC: UIViewController {
     var session: AVCaptureSession?
     var output = AVCapturePhotoOutput()
     
-    let previewLayer = AVCaptureVideoPreviewLayer()
-    
-    
     private let cameraButton: UIButton = {
         let button = UIButton()
-        
         button.setTitle("", for: .normal)
-        
         button.backgroundColor = UIColor(hex: "#248CB3")
         let image = UIImage(systemName: "basket")
         button.setImage(image, for: .normal)
@@ -34,15 +29,32 @@ class HomeVC: UIViewController {
         button.layer.shadowRadius = 2
         button.layer.borderWidth = 0.2
         button.layer.borderColor = UIColor.white.cgColor
-        
         return button
+    }()
+    
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Deneme"
+        label.font = .systemFont(ofSize: 24, weight: .semibold)
+        label.textAlignment = .center
+        
+        return label
+    }()
+    
+    private let scoreLabel: UILabel = {
+        let label = UILabel()
+        label.text = "%79"
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 24, weight: .semibold)
+        return label
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(hex: "#0C1B3A")
         view.addSubview(cameraButton)
-        view.layer.addSublayer(previewLayer)
+        view.addSubview(nameLabel)
+        view.addSubview(scoreLabel)
         cameraButton.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
     }
     
@@ -52,7 +64,6 @@ class HomeVC: UIViewController {
         let width = view.frame.width
         let height = view.frame.height
         
-        previewLayer.frame = CGRect(x: 0, y: 100, width: view.frame.width, height: view.frame.height-100)
         
         cameraButton.frame = CGRect(x: width-width/2+width/12, y: height-height/7, width: width/5, height: width/5)
         cameraButton.layer.cornerRadius = width/10

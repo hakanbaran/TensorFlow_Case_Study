@@ -176,12 +176,11 @@ extension CameraVC: AVCaptureVideoDataOutputSampleBufferDelegate {
                 
                 if score > 0.77 {
                     print("-------- \(label) -------- \(score) --------  \(objectFrame)")
-                    updateBoundingBoxView(with: objectFrame)
+//                    updateBoundingBoxView(with: objectFrame)
                     DispatchQueue.main.async {
                         self.nameLabel.text = label
                         self.boundingBoxView.frame = objectFrame
                         self.session?.stopRunning()
-                        
                     }
                 }
             } catch {
