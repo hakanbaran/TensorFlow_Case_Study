@@ -23,19 +23,23 @@ class CameraVC: UIViewController {
     
     let previewLayer = AVCaptureVideoPreviewLayer()
     
-    private let button: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .red
-        button.setTitle("KAMERAAA", for: .normal)
-        return button
-    }()
-    
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 24, weight: .semibold)
+        label.font = .systemFont(ofSize: 24, weight: .regular)
         label.numberOfLines = 1
         label.text = "Deneme"
+        label.backgroundColor = .darkGray
+        return label
+    }()
+    
+    private let scoreLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 24, weight: .regular)
+        label.numberOfLines = 1
+        label.text = "% 20"
+        label.backgroundColor = .darkGray
         return label
     }()
     
@@ -49,29 +53,18 @@ class CameraVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.layer.addSublayer(previewLayer)
-        
-        view.addSubview(button)
         view.addSubview(nameLabel)
+        view.addSubview(scoreLabel)
         view.addSubview(boundingBoxView)
-        
         checkCameraPermission()
-        
-        button.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
         previewLayer.frame = view.bounds
-        button.frame = CGRect(x: view.frame.width/2, y: view.frame.width/2, width: view.frame.width/2, height: view.frame.width/6)
-        nameLabel.frame = CGRect(x: view.frame.width/2, y: view.frame.height/2, width: view.frame.width/4, height: view.frame.width/8)
-//        boundingBoxView.frame = CGRect(x: 0, y: 0, width: view.frame.width/2, height: view.frame.height/2)
-    }
-    
-    @objc func buttonClicked() {
-//        output.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
+        nameLabel.frame = CGRect(x: 0, y: view.frame.height-view.frame.width/3-1, width: view.frame.width, height: view.frame.width/6)
+        scoreLabel.frame = CGRect(x: 0, y: view.frame.height-view.frame.width/6, width: view.frame.width, height: view.frame.width/6)
     }
     
     func checkCameraPermission() {
@@ -80,24 +73,20 @@ class CameraVC: UIViewController {
             // Kamera erişimi zaten verilmiş.
             setUpCamera()
             print("Kamera İzni Var")
-            
         case .notDetermined:
             // Kullanıcı henüz izin vermedi, izin iste.
             AVCaptureDevice.requestAccess(for: .video) { granted in
                 if granted {
 //                    self.setupCamera()
-                    
                     print("Kamera İzni Verildi")
                 } else {
                     // Kullanıcı izin vermedi.
-                    
                     print("Kamera İzni Verilmedi")
                 }
             }
         case .denied, .restricted:
             // Kamera erişimi reddedildi veya kısıtlandı.
             // Kullanıcıyı ayarlara yönlendirerek izin isteyebilirsiniz.
-            
             print("Kamera İzni Kısıtlandı")
             break
         @unknown default:
@@ -115,9 +104,6 @@ class CameraVC: UIViewController {
                 if session.canAddInput(input) {
                     session.addInput(input)
                 }
-//                if session.canAddOutput(output) {
-//                    session.addOutput(output)
-//                }
                 
                 videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
                 
@@ -135,9 +121,7 @@ class CameraVC: UIViewController {
                 }
                 self.session = session
             } catch {
-                
                 print("Error: \(error.localizedDescription)")
-                
             }
         }
     }
@@ -149,10 +133,7 @@ extension CameraVC: AVCaptureVideoDataOutputSampleBufferDelegate {
         guard let inputPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
         }
-        
         if let outputPixelBuffer = convertTo32BGRAFormat(inputPixelBuffer) {
-            
-            
             guard let modelPath = Bundle.main.path(forResource: "ssd_mobilenet_v1_1", ofType: "tflite") else {
                 return
             }
@@ -171,25 +152,21 @@ extension CameraVC: AVCaptureVideoDataOutputSampleBufferDelegate {
                     return
                 }
                 
-                
-                
                 DispatchQueue.main.async {
-                    self.boundingBoxView.frame = CGRect(x: objectFrame.origin.x, y: objectFrame.origin.y, width: objectFrame.width, height: objectFrame.height)
+                    self.boundingBoxView.frame = CGRect(x: objectFrame.origin.x, y: objectFrame.origin.y, width: objectFrame.width/3, height: objectFrame.height/3)
+                    self.nameLabel.text = label
+                    self.scoreLabel.text = "% \(Int(score*100))"
                 }
                 
+                
+                
                 if score > 0.77 {
-                    print("-------- \(label) -------- \(score) --------  \(objectFrame)")
                     DispatchQueue.main.async {
-                        self.nameLabel.text = label
                         
-                        self.delegate?.didCaptureScore(label)
-                        
-//                        self.boundingBoxView.frame = objectFrame
-                        
-                        
+                        let intScore = Int(score*100)
+                        self.delegate?.didCaptureScore(label, objectScore: intScore)
                         self.navigationController?.popViewController(animated: true)
                         self.session?.stopRunning()
-                        
                     }
                 }
             } catch {
@@ -199,7 +176,6 @@ extension CameraVC: AVCaptureVideoDataOutputSampleBufferDelegate {
             print("Format dönüşümü başarısız oldu!!!")
         }
     }
-    
 }
 
 //MARK: - CAMERA FORMAT
@@ -227,6 +203,6 @@ extension CameraVC {
 }
 
 protocol CameraDelegate: AnyObject {
-    func didCaptureScore(_ objectName: String)
+    func didCaptureScore(_ objectName: String, objectScore: Int)
 }
 

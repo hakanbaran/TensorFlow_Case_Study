@@ -21,6 +21,7 @@
 		D4D9839D2B4A1C6B00407BEB /* ssd_mobilenet_v1_1.tflite in Resources */ = {isa = PBXBuildFile; fileRef = D4D9839C2B4A1C6B00407BEB /* ssd_mobilenet_v1_1.tflite */; };
 		D4F04C752B4C2C98000E76B0 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = D4F04C742B4C2C98000E76B0 /* Alamofire */; };
 		D4F04C782B4C34C8000E76B0 /* LogInModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F04C772B4C34C8000E76B0 /* LogInModel.swift */; };
+		D4F04C7A2B4C5D5F000E76B0 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F04C792B4C5D5F000E76B0 /* UIImageExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		D46B88702B481F66003DE906 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		D4D9839C2B4A1C6B00407BEB /* ssd_mobilenet_v1_1.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = ssd_mobilenet_v1_1.tflite; sourceTree = SOURCE_ROOT; };
 		D4F04C772B4C34C8000E76B0 /* LogInModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInModel.swift; sourceTree = "<group>"; };
+		D4F04C792B4C5D5F000E76B0 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				D4171BDC2B4B4A2A005280C5 /* UIColorExtension.swift */,
+				D4F04C792B4C5D5F000E76B0 /* UIImageExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -110,10 +113,10 @@
 		D46B88552B4817FC003DE906 /* TensorFlow_Case_Study */ = {
 			isa = PBXGroup;
 			children = (
+				D46B886D2B481E32003DE906 /* Resource */,
 				D4171BDB2B4B4A0E005280C5 /* Extensions */,
 				D4F04C762B4C34B5000E76B0 /* Models */,
 				D469C9BC2B4C2897005216DF /* WebServices */,
-				D46B886D2B481E32003DE906 /* Resource */,
 				D46B886E2B481E39003DE906 /* Views */,
 				D46B88642B4817FD003DE906 /* Info.plist */,
 				D4D9839C2B4A1C6B00407BEB /* ssd_mobilenet_v1_1.tflite */,
@@ -265,6 +268,7 @@
 				D46B88712B481F66003DE906 /* HomeVC.swift in Sources */,
 				D4171BDD2B4B4A2A005280C5 /* UIColorExtension.swift in Sources */,
 				D46B88572B4817FC003DE906 /* AppDelegate.swift in Sources */,
+				D4F04C7A2B4C5D5F000E76B0 /* UIImageExtension.swift in Sources */,
 				D4F04C782B4C34C8000E76B0 /* LogInModel.swift in Sources */,
 				D407D38C2B49EA98006DC778 /* CameraVC.swift in Sources */,
 				D4171BDA2B4B47A6005280C5 /* PopUpVC.swift in Sources */,
