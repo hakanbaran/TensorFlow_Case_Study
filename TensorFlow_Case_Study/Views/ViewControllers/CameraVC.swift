@@ -8,11 +8,16 @@
 import UIKit
 import AVFoundation
 import TensorFlowLiteTaskVision
+import CoreImage
+import CoreVideo
+
 
 class CameraVC: UIViewController {
     
+    var timer: Timer?
+    
     var session: AVCaptureSession?
-    var output = AVCapturePhotoOutput()
+    var videoOutput = AVCaptureVideoDataOutput()
     
     let previewLayer = AVCaptureVideoPreviewLayer()
     
@@ -22,13 +27,36 @@ class CameraVC: UIViewController {
         button.setTitle("KAMERAAA", for: .normal)
         return button
     }()
+    
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 24, weight: .semibold)
+        label.numberOfLines = 1
+        label.text = "Deneme"
+        return label
+    }()
+    
+    private let boundingBoxView: UIView = {
+        let view = UIView()
+        view.layer.borderWidth = 2
+        view.layer.borderColor = UIColor.green.cgColor
+        view.backgroundColor = UIColor.clear
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.layer.addSublayer(previewLayer)
         
+        view.addSubview(button)
+        view.addSubview(nameLabel)
+        view.addSubview(boundingBoxView)
+        
         checkCameraPermission()
+        
+        button.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -36,6 +64,12 @@ class CameraVC: UIViewController {
         
         previewLayer.frame = view.bounds
         button.frame = CGRect(x: view.frame.width/2, y: view.frame.width/2, width: view.frame.width/2, height: view.frame.width/6)
+        nameLabel.frame = CGRect(x: view.frame.width/2, y: view.frame.height/2, width: view.frame.width/4, height: view.frame.width/8)
+//        boundingBoxView.frame = CGRect(x: 0, y: 0, width: view.frame.width/2, height: view.frame.height/2)
+    }
+    
+    @objc func buttonClicked() {
+//        output.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
     }
     
     func checkCameraPermission() {
@@ -45,7 +79,6 @@ class CameraVC: UIViewController {
             setUpCamera()
             print("Kamera İzni Var")
             
-
         case .notDetermined:
             // Kullanıcı henüz izin vermedi, izin iste.
             AVCaptureDevice.requestAccess(for: .video) { granted in
@@ -72,12 +105,6 @@ class CameraVC: UIViewController {
     
     func setUpCamera() {
         
-//        guard let modelPath = Bundle.main.path(forResource: "ssd_mobilenet_v1 1", ofType: "tflite") else {
-//            return
-//        }
-        
-        
-        
         let session = AVCaptureSession()
         
         if let device = AVCaptureDevice.default(for: .video) {
@@ -86,9 +113,16 @@ class CameraVC: UIViewController {
                 if session.canAddInput(input) {
                     session.addInput(input)
                 }
-                if session.canAddOutput(output) {
-                    session.addOutput(output)
+//                if session.canAddOutput(output) {
+//                    session.addOutput(output)
+//                }
+                
+                videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
+                
+                if session.canAddOutput(videoOutput) {
+                    session.addOutput(videoOutput)
                 }
+                
                 previewLayer.videoGravity = .resizeAspectFill
                 previewLayer.session = session
                 
@@ -100,29 +134,92 @@ class CameraVC: UIViewController {
                 self.session = session
             } catch {
                 
+                print("Error: \(error.localizedDescription)")
+                
             }
         }
     }
 }
 
-extension CameraVC: AVCapturePhotoCaptureDelegate {
+extension CameraVC: AVCaptureVideoDataOutputSampleBufferDelegate {
     
-    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        
-        
-        guard let data = photo.fileDataRepresentation() else {
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        guard let inputPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
         }
         
-        let image = UIImage(data: data)
-        
-        session?.stopRunning()
-        
-        let imageView = UIImageView(image: image)
-        imageView.contentMode = .scaleAspectFill
-        imageView.frame = view.bounds
-        view.addSubview(imageView)
+        if let outputPixelBuffer = convertTo32BGRAFormat(inputPixelBuffer) {
+            
+            
+            guard let modelPath = Bundle.main.path(forResource: "ssd_mobilenet_v1_1", ofType: "tflite") else {
+                return
+            }
+            let options = ObjectDetectorOptions(modelPath: modelPath)
+            do {
+                
+                let detector = try ObjectDetector.detector(options: options)
+                
+                guard let mlImage = MLImage(pixelBuffer: outputPixelBuffer) else {
+                    return
+                }
+                
+                let detectionResult = try detector.detect(mlImage: mlImage)
+                
+                guard let label = detectionResult.detections.first?.categories.first?.label, let objectFrame = detectionResult.detections.first?.boundingBox, let score = detectionResult.detections.first?.categories.first?.score else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    self.boundingBoxView.frame = CGRect(x: objectFrame.origin.x, y: objectFrame.origin.y, width: objectFrame.width, height: objectFrame.height)
+                }
+                
+//                boundingBoxView.frame
+                
+                if score > 0.77 {
+                    print("-------- \(label) -------- \(score) --------  \(objectFrame)")
+                    updateBoundingBoxView(with: objectFrame)
+                    DispatchQueue.main.async {
+                        self.nameLabel.text = label
+                        self.boundingBoxView.frame = objectFrame
+                        self.session?.stopRunning()
+                        
+                    }
+                }
+            } catch {
+                print("Error11!! \(error.localizedDescription)")
+            }
+        } else {
+            print("Format dönüşümü başarısız oldu!!!")
+        }
     }
-    
-    
+    func updateBoundingBoxView(with objectFrame: CGRect) {
+        let transformedObjectFrame = previewLayer.layerRectConverted(fromMetadataOutputRect: objectFrame)
+        DispatchQueue.main.async {
+            self.boundingBoxView.frame = transformedObjectFrame
+            self.boundingBoxView.isHidden = false
+        }
+    }
+}
+
+//MARK: - CAMERA FORMAT
+
+extension CameraVC {
+    func convertTo32BGRAFormat(_ inputPixelBuffer: CVPixelBuffer) -> CVPixelBuffer? {
+        // Create CIImage from the input pixel buffer
+        let ciImage = CIImage(cvPixelBuffer: inputPixelBuffer)
+
+        // Create CIContext
+        let context = CIContext()
+
+        // Render CIImage to a new CVPixelBuffer with the desired format
+        var outputPixelBuffer: CVPixelBuffer?
+        CVPixelBufferCreate(nil, CVPixelBufferGetWidth(inputPixelBuffer), CVPixelBufferGetHeight(inputPixelBuffer), kCVPixelFormatType_32BGRA, nil, &outputPixelBuffer)
+
+        guard let unwrappedOutputPixelBuffer = outputPixelBuffer else {
+            return nil
+        }
+
+        context.render(ciImage, to: unwrappedOutputPixelBuffer)
+
+        return unwrappedOutputPixelBuffer
+    }
 }
