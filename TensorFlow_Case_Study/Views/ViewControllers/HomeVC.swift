@@ -9,9 +9,7 @@ import UIKit
 import AVFoundation
 
 
-class HomeVC: UIViewController {
-    
-    
+class HomeVC: UIViewController, CameraDelegate {
     
     var session: AVCaptureSession?
     var output = AVCapturePhotoOutput()
@@ -70,7 +68,19 @@ class HomeVC: UIViewController {
     }
     @objc func buttonClicked() {
         let vc = CameraVC()
+        vc.delegate = self
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func didCaptureScore(_ objectName: String) {
+            // Use the score in the HomeVC
+//            scoreLabel.text = String(format: "%%%.2f", score * 100)
+        
+        print("Hakanbaran***** \(objectName)")
+        }
 }
+
+
+
+

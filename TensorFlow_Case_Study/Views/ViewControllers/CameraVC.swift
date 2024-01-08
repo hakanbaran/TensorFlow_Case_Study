@@ -14,6 +14,8 @@ import CoreVideo
 
 class CameraVC: UIViewController {
     
+    weak var delegate: CameraDelegate?
+    
     var timer: Timer?
     
     var session: AVCaptureSession?
@@ -168,19 +170,26 @@ extension CameraVC: AVCaptureVideoDataOutputSampleBufferDelegate {
                 guard let label = detectionResult.detections.first?.categories.first?.label, let objectFrame = detectionResult.detections.first?.boundingBox, let score = detectionResult.detections.first?.categories.first?.score else {
                     return
                 }
+                
+                
+                
                 DispatchQueue.main.async {
                     self.boundingBoxView.frame = CGRect(x: objectFrame.origin.x, y: objectFrame.origin.y, width: objectFrame.width, height: objectFrame.height)
                 }
                 
-//                boundingBoxView.frame
-                
                 if score > 0.77 {
                     print("-------- \(label) -------- \(score) --------  \(objectFrame)")
-//                    updateBoundingBoxView(with: objectFrame)
                     DispatchQueue.main.async {
                         self.nameLabel.text = label
-                        self.boundingBoxView.frame = objectFrame
+                        
+                        self.delegate?.didCaptureScore(label)
+                        
+//                        self.boundingBoxView.frame = objectFrame
+                        
+                        
+                        self.navigationController?.popViewController(animated: true)
                         self.session?.stopRunning()
+                        
                     }
                 }
             } catch {
@@ -190,13 +199,7 @@ extension CameraVC: AVCaptureVideoDataOutputSampleBufferDelegate {
             print("Format dönüşümü başarısız oldu!!!")
         }
     }
-    func updateBoundingBoxView(with objectFrame: CGRect) {
-        let transformedObjectFrame = previewLayer.layerRectConverted(fromMetadataOutputRect: objectFrame)
-        DispatchQueue.main.async {
-            self.boundingBoxView.frame = transformedObjectFrame
-            self.boundingBoxView.isHidden = false
-        }
-    }
+    
 }
 
 //MARK: - CAMERA FORMAT
@@ -222,3 +225,8 @@ extension CameraVC {
         return unwrappedOutputPixelBuffer
     }
 }
+
+protocol CameraDelegate: AnyObject {
+    func didCaptureScore(_ objectName: String)
+}
+
