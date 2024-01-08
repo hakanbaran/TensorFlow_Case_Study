@@ -10,11 +10,14 @@ import AVFoundation
 import TensorFlowLiteTaskVision
 import CoreImage
 import CoreVideo
+import NVActivityIndicatorView
 
 
 class CameraVC: UIViewController {
     
     weak var delegate: CameraDelegate?
+    
+    var activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), type: .lineSpinFadeLoader, color: .yellow, padding: nil)
     
     var timer: Timer?
     
@@ -57,7 +60,10 @@ class CameraVC: UIViewController {
         view.addSubview(nameLabel)
         view.addSubview(scoreLabel)
         view.addSubview(boundingBoxView)
+        view.addSubview(activityIndicatorView)
         checkCameraPermission()
+        logIn()
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -65,6 +71,7 @@ class CameraVC: UIViewController {
         previewLayer.frame = view.bounds
         nameLabel.frame = CGRect(x: 0, y: view.frame.height-view.frame.width/3-1, width: view.frame.width, height: view.frame.width/6)
         scoreLabel.frame = CGRect(x: 0, y: view.frame.height-view.frame.width/6, width: view.frame.width, height: view.frame.width/6)
+        activityIndicatorView.center = view.center
     }
     
     func checkCameraPermission() {
@@ -107,12 +114,19 @@ class CameraVC: UIViewController {
                 
                 videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
                 
+                
                 if session.canAddOutput(videoOutput) {
                     session.addOutput(videoOutput)
                 }
                 
                 previewLayer.videoGravity = .resizeAspectFill
                 previewLayer.session = session
+                
+                if let connection = videoOutput.connection(with: .video), connection.isVideoOrientationSupported {
+                    connection.videoOrientation = .portrait
+                }
+                
+                
                 
                 DispatchQueue.global(qos: .background).async {
                     do {
@@ -123,6 +137,22 @@ class CameraVC: UIViewController {
             } catch {
                 print("Error: \(error.localizedDescription)")
             }
+        }
+    }
+    
+    func logIn() {
+        activityIndicatorView.startAnimating()
+        APICaller.shared.enterRequest("http://localhost:3000/api/object-detection/upload", method: .post) { (result: Result<LogInModel, Error>) in
+            
+            DispatchQueue.main.asyncAfter(deadline: .now()+1.5) {
+                self.activityIndicatorView.stopAnimating()
+            }
+            switch result {
+                case .success(let user):
+                    print(user)
+                case .failure(let error):
+                    print("Error: \(error.localizedDescription)")
+                }
         }
     }
 }
@@ -139,7 +169,6 @@ extension CameraVC: AVCaptureVideoDataOutputSampleBufferDelegate {
             }
             let options = ObjectDetectorOptions(modelPath: modelPath)
             do {
-                
                 let detector = try ObjectDetector.detector(options: options)
                 
                 guard let mlImage = MLImage(pixelBuffer: outputPixelBuffer) else {
@@ -158,13 +187,30 @@ extension CameraVC: AVCaptureVideoDataOutputSampleBufferDelegate {
                     self.scoreLabel.text = "% \(Int(score*100))"
                 }
                 
-                
-                
-                if score > 0.77 {
+                if score > 0.65 {
                     DispatchQueue.main.async {
                         
+                        let ciImage = CIImage(cvPixelBuffer: outputPixelBuffer)
+
+                            // CIImage'i UIImage'e dönüştürme
+                            let uiImage = UIImage(ciImage: ciImage)
+
+                            // UIImage'i PNG formatında kaydetme
+                            if let data = uiImage.pngData() {
+                                
+                                if let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+                                    let fileURL = documentsDirectory.appendingPathComponent("image.png")
+                                    do {
+                                        try data.write(to: fileURL)
+                                        print("Görüntü başarıyla kaydedildi. Yol: \(fileURL)")
+                                    } catch {
+                                        print("Hata oluştu: \(error.localizedDescription)")
+                                    }
+                                }
+                            }
                         let intScore = Int(score*100)
-                        self.delegate?.didCaptureScore(label, objectScore: intScore)
+                        
+                        self.delegate?.didCaptureScore(label, objectScore: intScore, objectImage: uiImage)
                         self.navigationController?.popViewController(animated: true)
                         self.session?.stopRunning()
                     }
@@ -203,6 +249,6 @@ extension CameraVC {
 }
 
 protocol CameraDelegate: AnyObject {
-    func didCaptureScore(_ objectName: String, objectScore: Int)
+    func didCaptureScore(_ objectName: String, objectScore: Int, objectImage: UIImage)
 }
 

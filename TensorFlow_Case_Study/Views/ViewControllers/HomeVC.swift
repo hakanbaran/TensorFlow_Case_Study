@@ -9,6 +9,7 @@ import UIKit
 import AVFoundation
 
 
+
 class HomeVC: UIViewController, CameraDelegate {
     
     
@@ -36,8 +37,6 @@ class HomeVC: UIViewController, CameraDelegate {
         return button
     }()
     
-    
-    
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Deneme"
@@ -55,12 +54,22 @@ class HomeVC: UIViewController, CameraDelegate {
         return label
     }()
     
+    private var objectResultImage: UIImageView = {
+        let imageView = UIImageView()
+//        imageView.image = UIImage(systemName: "person")
+        imageView.backgroundColor = .clear
+        imageView.tintColor = .clear
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(hex: "#0C1B3A")
         view.addSubview(cameraButton)
         view.addSubview(nameLabel)
         view.addSubview(scoreLabel)
+        view.addSubview(objectResultImage)
         cameraButton.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
     }
     
@@ -73,13 +82,15 @@ class HomeVC: UIViewController, CameraDelegate {
         nameLabel.frame = CGRect(x: width/2, y: height/2, width: width/4, height: height/4)
         
         scoreLabel.frame = CGRect(x: width/2, y: height/2+height/8, width: width/4, height: height/4)
-        
-        
         cameraButton.frame = CGRect(x: width-width/2+width/12, y: height-height/7, width: width/5, height: width/5)
         cameraButton.layer.cornerRadius = width/10
+        
+        objectResultImage.frame = CGRect(x: 100, y: 100, width: width/2, height: height/2)
+        
+        
     }
     @objc func buttonClicked() {
-        logIn()
+        
         let vc = CameraVC()
         vc.delegate = self
         vc.hidesBottomBarWhenPushed = true
@@ -88,25 +99,16 @@ class HomeVC: UIViewController, CameraDelegate {
         
     }
     
-    func didCaptureScore(_ objectName: String, objectScore: Int) {
-            // Use the score in the HomeVC
-//            scoreLabel.text = String(format: "%%%.2f", score * 100)
-        
+    func didCaptureScore(_ objectName: String, objectScore: Int, objectImage: UIImage) {
         print("Hakanbaran***** \(objectName)")
-        nameLabel.text = objectName
-        scoreLabel.text = "% \(objectScore)"
+        
+        DispatchQueue.main.async {
+            self.nameLabel.text = objectName
+            self.scoreLabel.text = "% \(objectScore)"
+            self.objectResultImage.image = objectImage
         }
-    
-    func logIn() {
-        APICaller.shared.enterRequest("http://localhost:3000/api/object-detection/upload", method: .post) { (result: Result<LogInModel, Error>) in
-            switch result {
-                case .success(let user):
-                    print(user)
-                case .failure(let error):
-                    print("Error: \(error.localizedDescription)")
-                }
+        
         }
-    }
 }
 
 
