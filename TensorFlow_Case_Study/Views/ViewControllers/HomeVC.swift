@@ -90,7 +90,6 @@ class HomeVC: UIViewController, CameraDelegate {
         
     }
     @objc func buttonClicked() {
-        
         let vc = CameraVC()
         vc.delegate = self
         vc.hidesBottomBarWhenPushed = true

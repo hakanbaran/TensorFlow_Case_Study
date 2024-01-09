@@ -19,12 +19,9 @@ class CameraVC: UIViewController {
     var objectScore: Float?
     var objectImage: UIImage?
     
-    
     weak var delegate: CameraDelegate?
     
-    var activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), type: .lineSpinFadeLoader, color: .yellow, padding: nil)
-    
-    var timer: Timer?
+    var activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), type: .lineSpinFadeLoader, color: UIColor(hex: "#248CB3"), padding: nil)
     
     var session: AVCaptureSession?
     var videoOutput = AVCaptureVideoDataOutput()
@@ -61,19 +58,24 @@ class CameraVC: UIViewController {
     
     private let approveButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 24, weight: .semibold)
+        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
         button.setTitle("Approve Object", for: .normal)
         button.backgroundColor = .darkGray
         button.isHidden = true
+        button.layer.masksToBounds = false
+        button.layer.cornerRadius = 10
         return button
     }()
     
     private let restartButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 24, weight: .semibold)
+        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
         button.setTitle("Restart Search", for: .normal)
-        button.backgroundColor = .darkGray
+        button.titleLabel?.textAlignment = .center
+        button.backgroundColor = .red
         button.isHidden = true
+        button.layer.masksToBounds = false
+        button.layer.cornerRadius = 10
         return button
         
     }()
@@ -89,31 +91,26 @@ class CameraVC: UIViewController {
         view.addSubview(approveButton)
         view.addSubview(restartButton)
         checkCameraPermission()
-        
-        
         approveButton.addTarget(self, action: #selector(approveClicked), for: .touchUpInside)
         restartButton.addTarget(self, action: #selector(restartClicked), for: .touchUpInside)
-        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         let width = view.frame.width
         let height = view.frame.height
-        
         previewLayer.frame = view.bounds
-        nameLabel.frame = CGRect(x: 0, y: height-width/3-1, width: width, height: width/6)
-        scoreLabel.frame = CGRect(x: 0, y: height-width/6, width: width, height: width/6)
+        nameLabel.frame = CGRect(x: 0, y: height-width/4-1, width: width, height: width/8)
+        scoreLabel.frame = CGRect(x: 0, y: height-width/8, width: width, height: width/8)
         activityIndicatorView.center = view.center
-        approveButton.frame = CGRect(x: width/2-width/6-width/10, y: height/2, width: width/6, height: width/8)
-        restartButton.frame = CGRect(x: width/2+width/10, y: height/2, width: width/6, height: width/8)
+        approveButton.frame = CGRect(x: (width/2-width/2.5)/2, y: height-width/4-width/5, width: width/2.5, height: width/8)
+        restartButton.frame = CGRect(x: width/2+(width/2-width/2.5)/2, y: height-width/4-width/5, width: width/2.5, height: width/8)
     }
     
     func uploadImage( completion: @escaping (Bool) -> Void) {
         let data = self.objectImage?.pngData()
-        
         let uploadURL = "http://localhost:3000/api/object-detection/upload"
-        
         let uploadImageParameters = UploadImageModel(classname: objectName, image: data)
         self.activityIndicatorView.startAnimating()
         APICaller.shared.request(uploadURL, method: .post, parameters: uploadImageParameters.getParameters()) { (result: Result<UploadImageresponseModel, Error>) in
@@ -132,20 +129,15 @@ class CameraVC: UIViewController {
         }
     }
     
-    
     @objc func approveClicked() {
-        
         DispatchQueue.main.async {
             self.uploadImage { success in
                 switch success {
                 case true:
                     self.approveButton.isHidden = true
                     self.restartButton.isHidden = true
-//                    self.navigationController?.popViewController(animated: true)
-                    
                     self.showAlert(tittle: "Ne yapmak istersiniz?", message: "Keyfe keder!!!")
                 case false:
-//                    self.navigationController?.popViewController(animated: true)
                     self.showAlert(tittle: "Ne yapmak istersiniz?", message: "Keyfe keder!!!")
                     print("ERRORR!!!")
                 }
@@ -153,9 +145,7 @@ class CameraVC: UIViewController {
         }
     }
     
-    
     @objc func restartClicked() {
-        
         DispatchQueue.main.async {
             self.approveButton.isHidden = true
             self.restartButton.isHidden = true
@@ -163,23 +153,6 @@ class CameraVC: UIViewController {
         DispatchQueue.global(qos: .background).async {
                  self.session?.startRunning()
         }
-    }
-    
-    func showAlert(tittle: String, message: String) {
-        let alertController = UIAlertController(title: tittle, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ana Sayfaya Dön", style: .default) { _ in
-            let intScore = Int((self.objectScore ?? 0.0)*100)
-            self.delegate?.didCaptureScore(self.objectName ?? "", objectScore: intScore, objectImage: self.objectImage ?? UIImage())
-            self.navigationController?.popViewController(animated: true)
-        }
-        let restartButton = UIAlertAction(title: "Kamera Çalıştır", style: .cancel) { _ in
-            DispatchQueue.global(qos: .background).async {
-                     self.session?.startRunning()
-            }
-        }
-        alertController.addAction(okAction)
-        alertController.addAction(restartButton)
-        self.present(alertController, animated: true)
     }
     
     func checkCameraPermission() {
@@ -219,23 +192,16 @@ class CameraVC: UIViewController {
                 if session.canAddInput(input) {
                     session.addInput(input)
                 }
-                
                 videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
-                
-                
                 if session.canAddOutput(videoOutput) {
                     session.addOutput(videoOutput)
                 }
-                
                 previewLayer.videoGravity = .resizeAspectFill
                 previewLayer.session = session
                 
                 if let connection = videoOutput.connection(with: .video), connection.isVideoOrientationSupported {
                     connection.videoOrientation = .portrait
                 }
-                
-                
-                
                 DispatchQueue.global(qos: .background).async {
                     do {
                         session.startRunning()
@@ -330,31 +296,47 @@ extension CameraVC: AVCaptureVideoDataOutputSampleBufferDelegate {
     }
 }
 
-//MARK: - CAMERA FORMAT
+//MARK: - Camera Format
 
 extension CameraVC {
     func convertTo32BGRAFormat(_ inputPixelBuffer: CVPixelBuffer) -> CVPixelBuffer? {
         // Create CIImage from the input pixel buffer
         let ciImage = CIImage(cvPixelBuffer: inputPixelBuffer)
-
         // Create CIContext
         let context = CIContext()
-
         // Render CIImage to a new CVPixelBuffer with the desired format
         var outputPixelBuffer: CVPixelBuffer?
         CVPixelBufferCreate(nil, CVPixelBufferGetWidth(inputPixelBuffer), CVPixelBufferGetHeight(inputPixelBuffer), kCVPixelFormatType_32BGRA, nil, &outputPixelBuffer)
-
         guard let unwrappedOutputPixelBuffer = outputPixelBuffer else {
             return nil
         }
-
         context.render(ciImage, to: unwrappedOutputPixelBuffer)
-
         return unwrappedOutputPixelBuffer
     }
 }
 
+// MARK: - Add Delegate for Data Transfer
 protocol CameraDelegate: AnyObject {
     func didCaptureScore(_ objectName: String, objectScore: Int, objectImage: UIImage)
+}
+
+// MARK: - Add Alert
+extension CameraVC {
+    func showAlert(tittle: String, message: String) {
+        let alertController = UIAlertController(title: tittle, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ana Sayfaya Dön", style: .default) { _ in
+            let intScore = Int((self.objectScore ?? 0.0)*100)
+            self.delegate?.didCaptureScore(self.objectName ?? "", objectScore: intScore, objectImage: self.objectImage ?? UIImage())
+            self.navigationController?.popViewController(animated: true)
+        }
+        let restartButton = UIAlertAction(title: "Kamera Çalıştır", style: .cancel) { _ in
+            DispatchQueue.global(qos: .background).async {
+                     self.session?.startRunning()
+            }
+        }
+        alertController.addAction(okAction)
+        alertController.addAction(restartButton)
+        self.present(alertController, animated: true)
+    }
 }
 
