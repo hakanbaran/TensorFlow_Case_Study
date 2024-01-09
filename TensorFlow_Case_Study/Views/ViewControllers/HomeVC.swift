@@ -6,27 +6,21 @@
 //
 
 import UIKit
-import AVFoundation
 
 
 
 class HomeVC: UIViewController, CameraDelegate {
     
-    
-    
-    var session: AVCaptureSession?
-    var output = AVCapturePhotoOutput()
-    
     private let appIcon: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "2")
+        image.image = UIImage(named: "ddtech_logo")
         return image
     }()
     
     private let appTittle: UILabel = {
         let label = UILabel()
         label.text = "DDTechVision"
-        label.font = .systemFont(ofSize: 18, weight: .semibold)
+        label.font = .systemFont(ofSize: 24, weight: .semibold)
         return label
     }()
     
@@ -66,7 +60,8 @@ class HomeVC: UIViewController, CameraDelegate {
     
     private var objectResultImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .red
+        imageView.image = UIImage(named: "ddtech_image")
+//        imageView.backgroundColor = UIColor(hex: "#248CB3")
         imageView.tintColor = .clear
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true

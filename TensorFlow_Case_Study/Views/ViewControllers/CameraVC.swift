@@ -15,13 +15,11 @@ import NVActivityIndicatorView
 
 class CameraVC: UIViewController {
     
-    var viewModel: CameraViewModel?
-    
-    var objectName: String?
-    var objectScore: Float?
-    var objectImage: UIImage?
+    var viewModel = CameraViewModel()
     
     weak var delegate: CameraDelegate?
+    
+    
     
     var activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), type: .lineSpinFadeLoader, color: UIColor(hex: "#248CB3"), padding: nil)
     
@@ -84,7 +82,6 @@ class CameraVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        viewModel = CameraViewModel(delegate: self)
         
         view.layer.addSublayer(previewLayer)
         view.addSubview(nameLabel)
@@ -96,10 +93,21 @@ class CameraVC: UIViewController {
         approveButton.addTarget(self, action: #selector(approveClicked), for: .touchUpInside)
         restartButton.addTarget(self, action: #selector(restartClicked), for: .touchUpInside)
         
-//        viewModel?.checkCameraPermission()
-        
-        logIn()
+        viewModel.logIn()
         checkCameraPermission()
+        
+        
+        viewModel.onLoadingChanged = { [weak self] isOn in
+            
+            switch isOn {
+                
+            case true:
+                self?.activityIndicatorView.startAnimating()
+            case false:
+                self?.activityIndicatorView.stopAnimating()
+            }
+        }
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -115,33 +123,14 @@ class CameraVC: UIViewController {
         restartButton.frame = CGRect(x: width/2+(width/2-width/2.5)/2, y: height-width/4-width/5, width: width/2.5, height: width/8)
     }
     
-    func uploadImage( completion: @escaping (Bool) -> Void) {
-        let data = self.objectImage?.pngData()
-        let uploadURL = "http://localhost:3000/api/object-detection/upload"
-        let uploadImageParameters = UploadImageModel(classname: objectName, image: data)
-        self.activityIndicatorView.startAnimating()
-        APICaller.shared.request(uploadURL, method: .post, parameters: uploadImageParameters.getParameters()) { (result: Result<UploadImageresponseModel, Error>) in
-            
-            DispatchQueue.main.asyncAfter(deadline: .now()+1.5) {
-                self.activityIndicatorView.stopAnimating()
-            }
-            switch result {
-            case .success(let response):
-                print(response)
-                completion(true)
-            case .failure(let error):
-                print("Error: \(error.localizedDescription)")
-                completion(true)
-            }
-        }
-    }
+    
     
     @objc func approveClicked() {
         let tittle = "The object was sent to the server..."
         let message = "What do you want to do?"
         
         DispatchQueue.main.async {
-            self.uploadImage { success in
+            self.viewModel.uploadImage { success in
                 switch success {
                 case true:
                     self.approveButton.isHidden = true
@@ -224,24 +213,7 @@ class CameraVC: UIViewController {
         }
     }
     
-    func logIn() {
-        activityIndicatorView.startAnimating()
-        let requestParameters = LogInRequestModel(organizationCode: "TEST", email: "test@ddtech.com.tr", password: "Test")
-        APICaller.shared.request("http://localhost:3000/api/object-detection/upload", method: .post, parameters: requestParameters.getParameters()) { (result: Result<LogInModel, Error>) in
-            DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
-                self.activityIndicatorView.stopAnimating()
-            }
-            switch result {
-            case .success(let user):
-                if let userToken = user.data?.accessToken?.token {
-                    AuthManager.shared.token = userToken
-                }
-                print(user)
-            case .failure(let error):
-                print("Error: \(error.localizedDescription)")
-            }
-        }
-    }
+    
 }
 
 extension CameraVC: AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -273,9 +245,9 @@ extension CameraVC: AVCaptureVideoDataOutputSampleBufferDelegate {
                     DispatchQueue.main.async {
                         let ciImage = CIImage(cvPixelBuffer: outputPixelBuffer)
                         // CIImage'i UIImage'e dönüştürme
-                        self.objectImage = UIImage(ciImage: ciImage)
-                        self.objectScore = score
-                        self.objectName = label
+                        self.viewModel.objectImage = UIImage(ciImage: ciImage)
+                        self.viewModel.objectScore = score
+                        self.viewModel.objectName = label
                         self.session?.stopRunning()
                         self.approveButton.isHidden = false
                         self.restartButton.isHidden = false
@@ -319,8 +291,8 @@ extension CameraVC {
     func showAlert(tittle: String, message: String) {
         let alertController = UIAlertController(title: tittle, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Return to Home Page", style: .default) { _ in
-            let intScore = Int((self.objectScore ?? 0.0)*100)
-            self.delegate?.didCaptureScore(self.objectName ?? "", objectScore: intScore, objectImage: self.objectImage ?? UIImage())
+            let intScore = Int((self.viewModel.objectScore ?? 0.0)*100)
+            self.delegate?.didCaptureScore(self.viewModel.objectName ?? "", objectScore: intScore, objectImage: self.viewModel.objectImage ?? UIImage())
             self.navigationController?.popViewController(animated: true)
         }
         let restartButton = UIAlertAction(title: "Restart Camera", style: .cancel) { _ in

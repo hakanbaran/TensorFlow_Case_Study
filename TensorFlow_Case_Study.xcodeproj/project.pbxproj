@@ -10,7 +10,6 @@
 		885ECAE651D37B655E1D7FFA /* Pods_TensorFlow_Case_Study.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 631A8352D958CDE433E0EFF0 /* Pods_TensorFlow_Case_Study.framework */; };
 		D407D38A2B49E83F006DC778 /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407D3892B49E83F006DC778 /* TabBarVC.swift */; };
 		D407D38C2B49EA98006DC778 /* CameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407D38B2B49EA98006DC778 /* CameraVC.swift */; };
-		D4171BDA2B4B47A6005280C5 /* PopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4171BD92B4B47A6005280C5 /* PopUpVC.swift */; };
 		D4171BDD2B4B4A2A005280C5 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4171BDC2B4B4A2A005280C5 /* UIColorExtension.swift */; };
 		D4280EDE2B4D95C900E89675 /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4280EDD2B4D95C900E89675 /* CameraViewModel.swift */; };
 		D469C9BE2B4C28BC005216DF /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D469C9BD2B4C28BC005216DF /* APICaller.swift */; };
@@ -36,7 +35,6 @@
 		CFEA3B8CD608A92FDF0C076A /* Pods-TensorFlow_Case_Study.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TensorFlow_Case_Study.release.xcconfig"; path = "Target Support Files/Pods-TensorFlow_Case_Study/Pods-TensorFlow_Case_Study.release.xcconfig"; sourceTree = "<group>"; };
 		D407D3892B49E83F006DC778 /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 		D407D38B2B49EA98006DC778 /* CameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
-		D4171BD92B4B47A6005280C5 /* PopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpVC.swift; sourceTree = "<group>"; };
 		D4171BDC2B4B4A2A005280C5 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		D4280EDD2B4D95C900E89675 /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
 		D469C9BD2B4C28BC005216DF /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
@@ -172,7 +170,6 @@
 				D46B88702B481F66003DE906 /* HomeVC.swift */,
 				D407D38B2B49EA98006DC778 /* CameraVC.swift */,
 				D407D3892B49E83F006DC778 /* TabBarVC.swift */,
-				D4171BD92B4B47A6005280C5 /* PopUpVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -307,7 +304,6 @@
 				D4F04C7A2B4C5D5F000E76B0 /* UIImageExtension.swift in Sources */,
 				D4F04C782B4C34C8000E76B0 /* LogInModel.swift in Sources */,
 				D407D38C2B49EA98006DC778 /* CameraVC.swift in Sources */,
-				D4171BDA2B4B47A6005280C5 /* PopUpVC.swift in Sources */,
 				D407D38A2B49E83F006DC778 /* TabBarVC.swift in Sources */,
 				D46B88592B4817FC003DE906 /* SceneDelegate.swift in Sources */,
 				D469C9BE2B4C28BC005216DF /* APICaller.swift in Sources */,
