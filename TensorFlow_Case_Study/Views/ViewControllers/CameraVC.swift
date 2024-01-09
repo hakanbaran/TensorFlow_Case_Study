@@ -80,6 +80,7 @@ class CameraVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        logIn()
         view.layer.addSublayer(previewLayer)
         view.addSubview(nameLabel)
         view.addSubview(scoreLabel)
@@ -88,7 +89,7 @@ class CameraVC: UIViewController {
         view.addSubview(approveButton)
         view.addSubview(restartButton)
         checkCameraPermission()
-        logIn()
+        
         
         approveButton.addTarget(self, action: #selector(approveClicked), for: .touchUpInside)
         restartButton.addTarget(self, action: #selector(restartClicked), for: .touchUpInside)
@@ -135,26 +136,20 @@ class CameraVC: UIViewController {
     @objc func approveClicked() {
         
         DispatchQueue.main.async {
-                
-            
             self.uploadImage { success in
                 switch success {
                 case true:
                     self.approveButton.isHidden = true
                     self.restartButton.isHidden = true
+//                    self.navigationController?.popViewController(animated: true)
                     
-                    let intScore = Int((self.objectScore ?? 0.0)*100)
-                    self.delegate?.didCaptureScore(self.objectName ?? "", objectScore: intScore, objectImage: self.objectImage ?? UIImage())
-                    self.navigationController?.popViewController(animated: true)
-                    
+                    self.showAlert(tittle: "Ne yapmak istersiniz?", message: "Keyfe keder!!!")
                 case false:
-                    self.navigationController?.popViewController(animated: true)
+//                    self.navigationController?.popViewController(animated: true)
+                    self.showAlert(tittle: "Ne yapmak istersiniz?", message: "Keyfe keder!!!")
                     print("ERRORR!!!")
-                    
                 }
             }
-            
-            
         }
     }
     
@@ -165,15 +160,26 @@ class CameraVC: UIViewController {
             self.approveButton.isHidden = true
             self.restartButton.isHidden = true
         }
-        
         DispatchQueue.global(qos: .background).async {
-            do {
                  self.session?.startRunning()
-                
-                // Kameranın başarıyla başlatıldı, diğer işlemleri gerçekleştirin
+        }
+    }
+    
+    func showAlert(tittle: String, message: String) {
+        let alertController = UIAlertController(title: tittle, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ana Sayfaya Dön", style: .default) { _ in
+            let intScore = Int((self.objectScore ?? 0.0)*100)
+            self.delegate?.didCaptureScore(self.objectName ?? "", objectScore: intScore, objectImage: self.objectImage ?? UIImage())
+            self.navigationController?.popViewController(animated: true)
+        }
+        let restartButton = UIAlertAction(title: "Kamera Çalıştır", style: .cancel) { _ in
+            DispatchQueue.global(qos: .background).async {
+                     self.session?.startRunning()
             }
         }
-        
+        alertController.addAction(okAction)
+        alertController.addAction(restartButton)
+        self.present(alertController, animated: true)
     }
     
     func checkCameraPermission() {
@@ -249,7 +255,7 @@ class CameraVC: UIViewController {
         
         APICaller.shared.request("http://localhost:3000/api/object-detection/upload", method: .post, parameters: requestParameters.getParameters()) { (result: Result<LogInModel, Error>) in
             
-            DispatchQueue.main.asyncAfter(deadline: .now()+1.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
                 self.activityIndicatorView.stopAnimating()
             }
             switch result {

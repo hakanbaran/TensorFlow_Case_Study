@@ -95,8 +95,6 @@ class HomeVC: UIViewController, CameraDelegate {
         vc.delegate = self
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
-        
-        
     }
     
     func didCaptureScore(_ objectName: String, objectScore: Int, objectImage: UIImage) {
