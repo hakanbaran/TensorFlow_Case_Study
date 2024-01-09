@@ -16,8 +16,14 @@ class TabBarVC: UITabBarController {
         tabBar.tintColor = .red
         homeVC.navigationItem.largeTitleDisplayMode = .always
         let navHome = UINavigationController(rootViewController: homeVC)
-        navHome.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "person"), tag: 1)
+        navHome.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 1)
         navHome.navigationBar.prefersLargeTitles = true
+        
+        
+        let width = tabBar.frame.width
+        let yOffset: CGFloat = -width/4.5
+        navHome.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: yOffset, vertical: 0)
+        navHome.tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: yOffset, bottom: 0, right: -yOffset)
         setViewControllers([navHome], animated: true)
     }
     
@@ -30,7 +36,7 @@ class TabBarVC: UITabBarController {
         let path : UIBezierPath = getPathForTabBar()
         let shape = CAShapeLayer()
         shape.path = path.cgPath
-        shape.fillColor = UIColor.red.cgColor
+        shape.fillColor = UIColor(hex: "#162544").cgColor
         shape.shadowColor = UIColor.white.cgColor
         shape.shadowOffset = CGSize(width: 0, height: 0)
         shape.shadowOpacity = 0.5
@@ -39,9 +45,8 @@ class TabBarVC: UITabBarController {
         shape.borderWidth = 0.2
         shape.borderColor = UIColor.darkGray.cgColor
         self.tabBar.layer.insertSublayer(shape, at: 0)
-        self.tabBar.itemWidth = 40
-        self.tabBar.itemPositioning = .centered
-        self.tabBar.itemSpacing = 180
+        self.tabBar.itemWidth = 80
+        self.tabBar.itemPositioning = .fill
         self.tabBar.tintColor = UIColor.white
     }
     

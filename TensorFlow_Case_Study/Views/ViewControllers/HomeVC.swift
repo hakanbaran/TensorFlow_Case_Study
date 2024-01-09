@@ -22,10 +22,8 @@ class HomeVC: UIViewController, CameraDelegate {
         button.setTitle("", for: .normal)
         button.backgroundColor = UIColor(hex: "#248CB3")
         let image = UIImage(systemName: "camera")
-        
         var scaledImage = image?.scaledToHalf()
         scaledImage = scaledImage?.withTintColor(.white)
-        
         button.setImage(scaledImage, for: .normal)
         button.layer.cornerRadius = 30
         button.layer.shadowColor = UIColor.white.cgColor
@@ -42,7 +40,6 @@ class HomeVC: UIViewController, CameraDelegate {
         label.text = "Deneme"
         label.font = .systemFont(ofSize: 24, weight: .semibold)
         label.textAlignment = .center
-        
         return label
     }()
     
@@ -56,10 +53,17 @@ class HomeVC: UIViewController, CameraDelegate {
     
     private var objectResultImage: UIImageView = {
         let imageView = UIImageView()
-//        imageView.image = UIImage(systemName: "person")
-        imageView.backgroundColor = .clear
+        imageView.backgroundColor = .red
         imageView.tintColor = .clear
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 20
+        imageView.layer.shadowColor = UIColor.white.cgColor
+        imageView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        imageView.layer.shadowOpacity = 0.5
+        imageView.layer.shadowRadius = 2
+        imageView.layer.borderWidth = 0.2
+        imageView.layer.borderColor = UIColor.white.cgColor
         return imageView
     }()
     
@@ -71,24 +75,20 @@ class HomeVC: UIViewController, CameraDelegate {
         view.addSubview(scoreLabel)
         view.addSubview(objectResultImage)
         cameraButton.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
+        navigationController?.navigationBar.tintColor = .white
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
         let width = view.frame.width
         let height = view.frame.height
-        
-        nameLabel.frame = CGRect(x: width/2, y: height/2, width: width/4, height: height/4)
-        
-        scoreLabel.frame = CGRect(x: width/2, y: height/2+height/8, width: width/4, height: height/4)
         cameraButton.frame = CGRect(x: width-width/2+width/12, y: height-height/7, width: width/5, height: width/5)
         cameraButton.layer.cornerRadius = width/10
-        
-        objectResultImage.frame = CGRect(x: 100, y: 100, width: width/2, height: height/2)
-        
-        
+        objectResultImage.frame = CGRect(x: width/2-width/3, y: width/4, width: width/1.5, height: (width/1.5)*1.8)
+        nameLabel.frame = CGRect(x: width/2-width/8, y: (width/1.5)*1.8+width/8+width/8, width: width/4, height: width/8)
+        scoreLabel.frame = CGRect(x: width/2-width/8, y: (width/1.5)*1.8+width/4+width/8, width: width/4, height: width/8)
     }
+    
     @objc func buttonClicked() {
         let vc = CameraVC()
         vc.delegate = self

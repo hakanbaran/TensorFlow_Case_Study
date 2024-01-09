@@ -34,7 +34,7 @@ class CameraVC: UIViewController {
         label.font = .systemFont(ofSize: 24, weight: .regular)
         label.numberOfLines = 1
         label.text = "Deneme"
-        label.backgroundColor = .darkGray
+        label.backgroundColor = UIColor(hex: "#185a7d")
         return label
     }()
     
@@ -44,7 +44,7 @@ class CameraVC: UIViewController {
         label.font = .systemFont(ofSize: 24, weight: .regular)
         label.numberOfLines = 1
         label.text = "% 20"
-        label.backgroundColor = .darkGray
+        label.backgroundColor = UIColor(hex: "#185a7d")
         return label
     }()
     
@@ -60,7 +60,7 @@ class CameraVC: UIViewController {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
         button.setTitle("Approve Object", for: .normal)
-        button.backgroundColor = .darkGray
+        button.backgroundColor = UIColor(hex: "#185a7d")
         button.isHidden = true
         button.layer.masksToBounds = false
         button.layer.cornerRadius = 10
@@ -82,7 +82,7 @@ class CameraVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        logIn()
+        
         view.layer.addSublayer(previewLayer)
         view.addSubview(nameLabel)
         view.addSubview(scoreLabel)
@@ -90,9 +90,10 @@ class CameraVC: UIViewController {
         view.addSubview(activityIndicatorView)
         view.addSubview(approveButton)
         view.addSubview(restartButton)
-        checkCameraPermission()
         approveButton.addTarget(self, action: #selector(approveClicked), for: .touchUpInside)
         restartButton.addTarget(self, action: #selector(restartClicked), for: .touchUpInside)
+        logIn()
+        checkCameraPermission()
     }
     
     override func viewDidLayoutSubviews() {
@@ -130,15 +131,18 @@ class CameraVC: UIViewController {
     }
     
     @objc func approveClicked() {
+        let tittle = "The object was sent to the server..."
+        let message = "What do you want to do?"
+        
         DispatchQueue.main.async {
             self.uploadImage { success in
                 switch success {
                 case true:
                     self.approveButton.isHidden = true
                     self.restartButton.isHidden = true
-                    self.showAlert(tittle: "Ne yapmak istersiniz?", message: "Keyfe keder!!!")
+                    self.showAlert(tittle: tittle, message: message)
                 case false:
-                    self.showAlert(tittle: "Ne yapmak istersiniz?", message: "Keyfe keder!!!")
+                    self.showAlert(tittle: tittle, message: message)
                     print("ERRORR!!!")
                 }
             }
@@ -216,12 +220,9 @@ class CameraVC: UIViewController {
     
     func logIn() {
         activityIndicatorView.startAnimating()
-        
         let requestParameters = LogInRequestModel(organizationCode: "TEST", email: "test@ddtech.com.tr", password: "Test")
-        
         APICaller.shared.request("http://localhost:3000/api/object-detection/upload", method: .post, parameters: requestParameters.getParameters()) { (result: Result<LogInModel, Error>) in
-            
-            DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
                 self.activityIndicatorView.stopAnimating()
             }
             switch result {
@@ -250,42 +251,29 @@ extension CameraVC: AVCaptureVideoDataOutputSampleBufferDelegate {
             let options = ObjectDetectorOptions(modelPath: modelPath)
             do {
                 let detector = try ObjectDetector.detector(options: options)
-                
                 guard let mlImage = MLImage(pixelBuffer: outputPixelBuffer) else {
                     return
                 }
-                
                 let detectionResult = try detector.detect(mlImage: mlImage)
-                
                 guard let label = detectionResult.detections.first?.categories.first?.label, let objectFrame = detectionResult.detections.first?.boundingBox, let score = detectionResult.detections.first?.categories.first?.score else {
                     return
                 }
-                
                 DispatchQueue.main.async {
                     self.boundingBoxView.frame = CGRect(x: objectFrame.origin.x, y: objectFrame.origin.y, width: objectFrame.width/3, height: objectFrame.height/3)
                     self.nameLabel.text = label
                     self.scoreLabel.text = "% \(Int(score*100))"
                 }
-                
                 if score > 0.75 {
-                    
                     DispatchQueue.main.async {
                         let ciImage = CIImage(cvPixelBuffer: outputPixelBuffer)
-                        
-                        
-                        
                         // CIImage'i UIImage'e dönüştürme
                         self.objectImage = UIImage(ciImage: ciImage)
                         self.objectScore = score
                         self.objectName = label
-                        
                         self.session?.stopRunning()
-                        
                         self.approveButton.isHidden = false
                         self.restartButton.isHidden = false
-                        
                     }
-                    
                 }
             } catch {
                 print("Error11!! \(error.localizedDescription)")
@@ -324,12 +312,12 @@ protocol CameraDelegate: AnyObject {
 extension CameraVC {
     func showAlert(tittle: String, message: String) {
         let alertController = UIAlertController(title: tittle, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ana Sayfaya Dön", style: .default) { _ in
+        let okAction = UIAlertAction(title: "Return to Home Page", style: .default) { _ in
             let intScore = Int((self.objectScore ?? 0.0)*100)
             self.delegate?.didCaptureScore(self.objectName ?? "", objectScore: intScore, objectImage: self.objectImage ?? UIImage())
             self.navigationController?.popViewController(animated: true)
         }
-        let restartButton = UIAlertAction(title: "Kamera Çalıştır", style: .cancel) { _ in
+        let restartButton = UIAlertAction(title: "Restart Camera", style: .cancel) { _ in
             DispatchQueue.global(qos: .background).async {
                      self.session?.startRunning()
             }
