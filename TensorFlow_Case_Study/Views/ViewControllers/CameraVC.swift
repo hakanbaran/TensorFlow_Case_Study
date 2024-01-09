@@ -96,18 +96,14 @@ class CameraVC: UIViewController {
         viewModel.logIn()
         checkCameraPermission()
         
-        
         viewModel.onLoadingChanged = { [weak self] isOn in
-            
             switch isOn {
-                
             case true:
                 self?.activityIndicatorView.startAnimating()
             case false:
                 self?.activityIndicatorView.stopAnimating()
             }
         }
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -122,8 +118,6 @@ class CameraVC: UIViewController {
         approveButton.frame = CGRect(x: (width/2-width/2.5)/2, y: height-width/4-width/5, width: width/2.5, height: width/8)
         restartButton.frame = CGRect(x: width/2+(width/2-width/2.5)/2, y: height-width/4-width/5, width: width/2.5, height: width/8)
     }
-    
-    
     
     @objc func approveClicked() {
         let tittle = "The object was sent to the server..."
@@ -241,10 +235,9 @@ extension CameraVC: AVCaptureVideoDataOutputSampleBufferDelegate {
                     self.nameLabel.text = label
                     self.scoreLabel.text = "% \(Int(score*100))"
                 }
-                if score > 0.75 {
+                if score > 0.77 {
                     DispatchQueue.main.async {
                         let ciImage = CIImage(cvPixelBuffer: outputPixelBuffer)
-                        // CIImage'i UIImage'e dönüştürme
                         self.viewModel.objectImage = UIImage(ciImage: ciImage)
                         self.viewModel.objectScore = score
                         self.viewModel.objectName = label
