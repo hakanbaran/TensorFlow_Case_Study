@@ -21,3 +21,9 @@ struct TokenResponse: Codable {
     let token: String?
     let expiresIn: String?
 }
+
+struct LogInRequestModel: Codable {
+    let organizationCode: String?
+    let email: String?
+    let password: String?
+}

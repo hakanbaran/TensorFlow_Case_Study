@@ -12,11 +12,7 @@ class APICaller {
     
     static let shared = APICaller()
     
-    private let organizationCode = "TEST"
-    private let email = "test@ddtech.com.tr"
-    private let password = "Test"
-    
-    func enterRequest<T: Decodable>(_ url: String, method: HTTPMethod, parameters: Parameters? = nil, headers: HTTPHeaders? = nil, completion: @escaping (Result<T, Error>) -> Void) {
+    func request<T: Decodable>(_ url: String, method: HTTPMethod, parameters: Parameters? = nil, headers: HTTPHeaders? = nil, completion: @escaping (Result<T, Error>) -> Void) {
         AF.request(url, method: method, parameters: parameters, headers: headers)
             .validate()
             .responseDecodable(of: T.self) { response in

@@ -15,6 +15,11 @@ import NVActivityIndicatorView
 
 class CameraVC: UIViewController {
     
+    var objectName: String?
+    var objectScore: Float?
+    var objectImage: UIImage?
+    
+    
     weak var delegate: CameraDelegate?
     
     var activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), type: .lineSpinFadeLoader, color: .yellow, padding: nil)
@@ -53,6 +58,25 @@ class CameraVC: UIViewController {
         view.backgroundColor = UIColor.clear
         return view
     }()
+    
+    private let approveButton: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = .systemFont(ofSize: 24, weight: .semibold)
+        button.setTitle("Approve Object", for: .normal)
+        button.backgroundColor = .darkGray
+        button.isHidden = true
+        return button
+    }()
+    
+    private let restartButton: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = .systemFont(ofSize: 24, weight: .semibold)
+        button.setTitle("Restart Search", for: .normal)
+        button.backgroundColor = .darkGray
+        button.isHidden = true
+        return button
+        
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,17 +85,95 @@ class CameraVC: UIViewController {
         view.addSubview(scoreLabel)
         view.addSubview(boundingBoxView)
         view.addSubview(activityIndicatorView)
+        view.addSubview(approveButton)
+        view.addSubview(restartButton)
         checkCameraPermission()
         logIn()
+        
+        approveButton.addTarget(self, action: #selector(approveClicked), for: .touchUpInside)
+        restartButton.addTarget(self, action: #selector(restartClicked), for: .touchUpInside)
         
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        let width = view.frame.width
+        let height = view.frame.height
+        
         previewLayer.frame = view.bounds
-        nameLabel.frame = CGRect(x: 0, y: view.frame.height-view.frame.width/3-1, width: view.frame.width, height: view.frame.width/6)
-        scoreLabel.frame = CGRect(x: 0, y: view.frame.height-view.frame.width/6, width: view.frame.width, height: view.frame.width/6)
+        nameLabel.frame = CGRect(x: 0, y: height-width/3-1, width: width, height: width/6)
+        scoreLabel.frame = CGRect(x: 0, y: height-width/6, width: width, height: width/6)
         activityIndicatorView.center = view.center
+        approveButton.frame = CGRect(x: width/2-width/6-width/10, y: height/2, width: width/6, height: width/8)
+        restartButton.frame = CGRect(x: width/2+width/10, y: height/2, width: width/6, height: width/8)
+    }
+    
+    func uploadImage( completion: @escaping (Bool) -> Void) {
+        let data = self.objectImage?.pngData()
+        
+        let uploadURL = "http://localhost:3000/api/object-detection/upload"
+        
+        let uploadImageParameters = UploadImageModel(classname: objectName, image: data)
+        self.activityIndicatorView.startAnimating()
+        APICaller.shared.request(uploadURL, method: .post, parameters: uploadImageParameters.getParameters()) { (result: Result<UploadImageresponseModel, Error>) in
+            
+            DispatchQueue.main.asyncAfter(deadline: .now()+1.5) {
+                self.activityIndicatorView.stopAnimating()
+            }
+            switch result {
+            case .success(let response):
+                print(response)
+                completion(true)
+            case .failure(let error):
+                print("Error: \(error.localizedDescription)")
+                completion(true)
+            }
+        }
+    }
+    
+    
+    @objc func approveClicked() {
+        
+        DispatchQueue.main.async {
+                
+            
+            self.uploadImage { success in
+                switch success {
+                case true:
+                    self.approveButton.isHidden = true
+                    self.restartButton.isHidden = true
+                    
+                    let intScore = Int((self.objectScore ?? 0.0)*100)
+                    self.delegate?.didCaptureScore(self.objectName ?? "", objectScore: intScore, objectImage: self.objectImage ?? UIImage())
+                    self.navigationController?.popViewController(animated: true)
+                    
+                case false:
+                    self.navigationController?.popViewController(animated: true)
+                    print("ERRORR!!!")
+                    
+                }
+            }
+            
+            
+        }
+    }
+    
+    
+    @objc func restartClicked() {
+        
+        DispatchQueue.main.async {
+            self.approveButton.isHidden = true
+            self.restartButton.isHidden = true
+        }
+        
+        DispatchQueue.global(qos: .background).async {
+            do {
+                 self.session?.startRunning()
+                
+                // Kameranın başarıyla başlatıldı, diğer işlemleri gerçekleştirin
+            }
+        }
+        
     }
     
     func checkCameraPermission() {
@@ -142,17 +244,23 @@ class CameraVC: UIViewController {
     
     func logIn() {
         activityIndicatorView.startAnimating()
-        APICaller.shared.enterRequest("http://localhost:3000/api/object-detection/upload", method: .post) { (result: Result<LogInModel, Error>) in
+        
+        let requestParameters = LogInRequestModel(organizationCode: "TEST", email: "test@ddtech.com.tr", password: "Test")
+        
+        APICaller.shared.request("http://localhost:3000/api/object-detection/upload", method: .post, parameters: requestParameters.getParameters()) { (result: Result<LogInModel, Error>) in
             
             DispatchQueue.main.asyncAfter(deadline: .now()+1.5) {
                 self.activityIndicatorView.stopAnimating()
             }
             switch result {
-                case .success(let user):
-                    print(user)
-                case .failure(let error):
-                    print("Error: \(error.localizedDescription)")
+            case .success(let user):
+                if let userToken = user.data?.accessToken?.token {
+                    AuthManager.shared.token = userToken
                 }
+                print(user)
+            case .failure(let error):
+                print("Error: \(error.localizedDescription)")
+            }
         }
     }
 }
@@ -187,33 +295,25 @@ extension CameraVC: AVCaptureVideoDataOutputSampleBufferDelegate {
                     self.scoreLabel.text = "% \(Int(score*100))"
                 }
                 
-                if score > 0.65 {
+                if score > 0.75 {
+                    
                     DispatchQueue.main.async {
-                        
                         let ciImage = CIImage(cvPixelBuffer: outputPixelBuffer)
-
-                            // CIImage'i UIImage'e dönüştürme
-                            let uiImage = UIImage(ciImage: ciImage)
-
-                            // UIImage'i PNG formatında kaydetme
-                            if let data = uiImage.pngData() {
-                                
-                                if let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-                                    let fileURL = documentsDirectory.appendingPathComponent("image.png")
-                                    do {
-                                        try data.write(to: fileURL)
-                                        print("Görüntü başarıyla kaydedildi. Yol: \(fileURL)")
-                                    } catch {
-                                        print("Hata oluştu: \(error.localizedDescription)")
-                                    }
-                                }
-                            }
-                        let intScore = Int(score*100)
                         
-                        self.delegate?.didCaptureScore(label, objectScore: intScore, objectImage: uiImage)
-                        self.navigationController?.popViewController(animated: true)
+                        
+                        
+                        // CIImage'i UIImage'e dönüştürme
+                        self.objectImage = UIImage(ciImage: ciImage)
+                        self.objectScore = score
+                        self.objectName = label
+                        
                         self.session?.stopRunning()
+                        
+                        self.approveButton.isHidden = false
+                        self.restartButton.isHidden = false
+                        
                     }
+                    
                 }
             } catch {
                 print("Error11!! \(error.localizedDescription)")
