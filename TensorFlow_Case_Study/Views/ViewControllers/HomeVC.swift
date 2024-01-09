@@ -17,6 +17,19 @@ class HomeVC: UIViewController, CameraDelegate {
     var session: AVCaptureSession?
     var output = AVCapturePhotoOutput()
     
+    private let appIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "2")
+        return image
+    }()
+    
+    private let appTittle: UILabel = {
+        let label = UILabel()
+        label.text = "DDTechVision"
+        label.font = .systemFont(ofSize: 18, weight: .semibold)
+        return label
+    }()
+    
     private let cameraButton: UIButton = {
         let button = UIButton()
         button.setTitle("", for: .normal)
@@ -70,6 +83,8 @@ class HomeVC: UIViewController, CameraDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(hex: "#0C1B3A")
+        view.addSubview(appIcon)
+        view.addSubview(appTittle)
         view.addSubview(cameraButton)
         view.addSubview(nameLabel)
         view.addSubview(scoreLabel)
@@ -82,11 +97,13 @@ class HomeVC: UIViewController, CameraDelegate {
         super.viewDidLayoutSubviews()
         let width = view.frame.width
         let height = view.frame.height
+        appIcon.frame = CGRect(x: width/20, y: width/8, width: width/8, height: width/8)
+        appTittle.frame = CGRect(x: width/16+width/8+width/40, y: width/8, width: width/2, height: height/20)
         cameraButton.frame = CGRect(x: width-width/2+width/12, y: height-height/7, width: width/5, height: width/5)
         cameraButton.layer.cornerRadius = width/10
-        objectResultImage.frame = CGRect(x: width/2-width/3, y: width/4, width: width/1.5, height: (width/1.5)*1.8)
-        nameLabel.frame = CGRect(x: width/2-width/8, y: (width/1.5)*1.8+width/8+width/8, width: width/4, height: width/8)
-        scoreLabel.frame = CGRect(x: width/2-width/8, y: (width/1.5)*1.8+width/4+width/8, width: width/4, height: width/8)
+        objectResultImage.frame = CGRect(x: width/2-width/3, y: width/4+width/8, width: width/1.5, height: (width/1.5)*1.8)
+        nameLabel.frame = CGRect(x: width/2-width/8, y: (width/1.5)*1.8+width/8+width/8+width/8, width: width/4, height: width/8)
+        scoreLabel.frame = CGRect(x: width/2-width/8, y: (width/1.5)*1.8+width/4+width/8+width/8, width: width/4, height: width/8)
     }
     
     @objc func buttonClicked() {

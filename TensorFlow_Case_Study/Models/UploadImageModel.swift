@@ -7,20 +7,9 @@
 
 import Foundation
 
-
-/*
- {
-     "succededd": true,
-     "data": null,
-     "errorCodes": null
- }
- */
-
 struct UploadImageModel: Codable {
-    
     let classname: String?
     let image: Data?
-    
 }
 
 struct UploadImageresponseModel: Codable {
