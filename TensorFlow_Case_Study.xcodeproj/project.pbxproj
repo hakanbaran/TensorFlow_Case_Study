@@ -12,6 +12,7 @@
 		D407D38C2B49EA98006DC778 /* CameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407D38B2B49EA98006DC778 /* CameraVC.swift */; };
 		D4171BDA2B4B47A6005280C5 /* PopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4171BD92B4B47A6005280C5 /* PopUpVC.swift */; };
 		D4171BDD2B4B4A2A005280C5 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4171BDC2B4B4A2A005280C5 /* UIColorExtension.swift */; };
+		D4280EDE2B4D95C900E89675 /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4280EDD2B4D95C900E89675 /* CameraViewModel.swift */; };
 		D469C9BE2B4C28BC005216DF /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D469C9BD2B4C28BC005216DF /* APICaller.swift */; };
 		D46B88572B4817FC003DE906 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B88562B4817FC003DE906 /* AppDelegate.swift */; };
 		D46B88592B4817FC003DE906 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B88582B4817FC003DE906 /* SceneDelegate.swift */; };
@@ -37,6 +38,7 @@
 		D407D38B2B49EA98006DC778 /* CameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
 		D4171BD92B4B47A6005280C5 /* PopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpVC.swift; sourceTree = "<group>"; };
 		D4171BDC2B4B4A2A005280C5 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		D4280EDD2B4D95C900E89675 /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
 		D469C9BD2B4C28BC005216DF /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		D46B88532B4817FC003DE906 /* TensorFlow_Case_Study.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TensorFlow_Case_Study.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46B88562B4817FC003DE906 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		D4280EDC2B4D957300E89675 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				D4280EDD2B4D95C900E89675 /* CameraViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		D469C9BC2B4C2897005216DF /* WebServices */ = {
 			isa = PBXGroup;
 			children = (
@@ -124,11 +134,12 @@
 		D46B88552B4817FC003DE906 /* TensorFlow_Case_Study */ = {
 			isa = PBXGroup;
 			children = (
-				D4F8E83F2B4C7D1000A235EC /* Utils */,
 				D46B886D2B481E32003DE906 /* Resource */,
 				D4171BDB2B4B4A0E005280C5 /* Extensions */,
-				D4F04C762B4C34B5000E76B0 /* Models */,
+				D4F8E83F2B4C7D1000A235EC /* Utils */,
 				D469C9BC2B4C2897005216DF /* WebServices */,
+				D4F04C762B4C34B5000E76B0 /* Models */,
+				D4280EDC2B4D957300E89675 /* ViewModels */,
 				D46B886E2B481E39003DE906 /* Views */,
 				D46B88642B4817FD003DE906 /* Info.plist */,
 				D4D9839C2B4A1C6B00407BEB /* ssd_mobilenet_v1_1.tflite */,
@@ -300,6 +311,7 @@
 				D407D38A2B49E83F006DC778 /* TabBarVC.swift in Sources */,
 				D46B88592B4817FC003DE906 /* SceneDelegate.swift in Sources */,
 				D469C9BE2B4C28BC005216DF /* APICaller.swift in Sources */,
+				D4280EDE2B4D95C900E89675 /* CameraViewModel.swift in Sources */,
 				D4F8E83E2B4C7BD200A235EC /* UploadImageModel.swift in Sources */,
 				D4F8E83C2B4C795C00A235EC /* EncodableExtension.swift in Sources */,
 			);

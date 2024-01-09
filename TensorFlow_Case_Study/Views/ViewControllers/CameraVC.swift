@@ -15,6 +15,8 @@ import NVActivityIndicatorView
 
 class CameraVC: UIViewController {
     
+    var viewModel: CameraViewModel?
+    
     var objectName: String?
     var objectScore: Float?
     var objectImage: UIImage?
@@ -82,6 +84,7 @@ class CameraVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+//        viewModel = CameraViewModel(delegate: self)
         
         view.layer.addSublayer(previewLayer)
         view.addSubview(nameLabel)
@@ -92,6 +95,9 @@ class CameraVC: UIViewController {
         view.addSubview(restartButton)
         approveButton.addTarget(self, action: #selector(approveClicked), for: .touchUpInside)
         restartButton.addTarget(self, action: #selector(restartClicked), for: .touchUpInside)
+        
+//        viewModel?.checkCameraPermission()
+        
         logIn()
         checkCameraPermission()
     }

@@ -50,7 +50,7 @@ class HomeVC: UIViewController, CameraDelegate {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Deneme"
+        label.text = "Obje İsmi"
         label.font = .systemFont(ofSize: 24, weight: .semibold)
         label.textAlignment = .center
         return label
@@ -58,7 +58,7 @@ class HomeVC: UIViewController, CameraDelegate {
     
     private let scoreLabel: UILabel = {
         let label = UILabel()
-        label.text = "%79"
+        label.text = "Doğruluk Oranı %"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 24, weight: .semibold)
         return label
@@ -102,8 +102,8 @@ class HomeVC: UIViewController, CameraDelegate {
         cameraButton.frame = CGRect(x: width-width/2+width/12, y: height-height/7, width: width/5, height: width/5)
         cameraButton.layer.cornerRadius = width/10
         objectResultImage.frame = CGRect(x: width/2-width/3, y: width/4+width/8, width: width/1.5, height: (width/1.5)*1.8)
-        nameLabel.frame = CGRect(x: width/2-width/8, y: (width/1.5)*1.8+width/8+width/8+width/8, width: width/4, height: width/8)
-        scoreLabel.frame = CGRect(x: width/2-width/8, y: (width/1.5)*1.8+width/4+width/8+width/8, width: width/4, height: width/8)
+        nameLabel.frame = CGRect(x: width/2-width/2, y: (width/1.5)*1.8+width/8+width/8+width/8, width: width, height: width/8)
+        scoreLabel.frame = CGRect(x: width/2-width/2, y: (width/1.5)*1.8+width/4+width/8+width/8, width: width, height: width/8)
     }
     
     @objc func buttonClicked() {
@@ -118,7 +118,7 @@ class HomeVC: UIViewController, CameraDelegate {
         
         DispatchQueue.main.async {
             self.nameLabel.text = objectName
-            self.scoreLabel.text = "% \(objectScore)"
+            self.scoreLabel.text = "Doğruluk Oranı: % \(objectScore)"
             self.objectResultImage.image = objectImage
         }
         
