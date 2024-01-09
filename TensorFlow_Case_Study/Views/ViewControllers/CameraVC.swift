@@ -19,8 +19,6 @@ class CameraVC: UIViewController {
     
     weak var delegate: CameraDelegate?
     
-    
-    
     var activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), type: .lineSpinFadeLoader, color: UIColor(hex: "#248CB3"), padding: nil)
     
     var session: AVCaptureSession?
@@ -167,7 +165,6 @@ class CameraVC: UIViewController {
             }
         case .denied, .restricted:
             // Kamera erişimi reddedildi veya kısıtlandı.
-            // Kullanıcıyı ayarlara yönlendirerek izin isteyebilirsiniz.
             print("Kamera İzni Kısıtlandı")
             break
         @unknown default:

@@ -61,7 +61,6 @@ class HomeVC: UIViewController, CameraDelegate {
     private var objectResultImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "ddtech_image")
-//        imageView.backgroundColor = UIColor(hex: "#248CB3")
         imageView.tintColor = .clear
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
@@ -117,7 +116,7 @@ class HomeVC: UIViewController, CameraDelegate {
             self.objectResultImage.image = objectImage
         }
         
-        }
+    }
 }
 
 

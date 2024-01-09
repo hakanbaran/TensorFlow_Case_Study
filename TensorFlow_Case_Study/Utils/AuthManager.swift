@@ -8,12 +8,8 @@
 import Foundation
 
 class AuthManager {
-    
     static let shared = AuthManager()
-    
     var token = ""
-    
     private init() {}
-    
 }
 
